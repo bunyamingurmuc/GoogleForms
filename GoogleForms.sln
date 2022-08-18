@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.DAL", "GoogleForms.DAL\GoogleForms.DAL.csproj", "{A5922F74-39E3-4B7F-88CF-F11E8D00EA05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.BLL", "GoogleForms.BLL\GoogleForms.BLL.csproj", "{03304633-6B90-4F5A-9EC0-087590115710}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.Entities", "GoogleForms.Entities\GoogleForms.Entities.csproj", "{658DA189-9DAF-43F6-8323-7236FA498907}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.DTOs", "GoogleForms.DTOs\GoogleForms.DTOs.csproj", "{9EB18621-D725-4C67-AB11-E18B89F09092}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.WebAPI", "GoogleForms.WebAPI\GoogleForms.WebAPI.csproj", "{6C9FE351-7593-4B9E-8849-C94F03387E8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.Common", "GoogleForms.Common\GoogleForms.Common.csproj", "{2606738E-17E8-46A9-A9BD-197F063C91BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5922F74-39E3-4B7F-88CF-F11E8D00EA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5922F74-39E3-4B7F-88CF-F11E8D00EA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5922F74-39E3-4B7F-88CF-F11E8D00EA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5922F74-39E3-4B7F-88CF-F11E8D00EA05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03304633-6B90-4F5A-9EC0-087590115710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03304633-6B90-4F5A-9EC0-087590115710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03304633-6B90-4F5A-9EC0-087590115710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03304633-6B90-4F5A-9EC0-087590115710}.Release|Any CPU.Build.0 = Release|Any CPU
+		{658DA189-9DAF-43F6-8323-7236FA498907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{658DA189-9DAF-43F6-8323-7236FA498907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{658DA189-9DAF-43F6-8323-7236FA498907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{658DA189-9DAF-43F6-8323-7236FA498907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EB18621-D725-4C67-AB11-E18B89F09092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB18621-D725-4C67-AB11-E18B89F09092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB18621-D725-4C67-AB11-E18B89F09092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB18621-D725-4C67-AB11-E18B89F09092}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C9FE351-7593-4B9E-8849-C94F03387E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C9FE351-7593-4B9E-8849-C94F03387E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C9FE351-7593-4B9E-8849-C94F03387E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C9FE351-7593-4B9E-8849-C94F03387E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2606738E-17E8-46A9-A9BD-197F063C91BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2606738E-17E8-46A9-A9BD-197F063C91BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2606738E-17E8-46A9-A9BD-197F063C91BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2606738E-17E8-46A9-A9BD-197F063C91BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78A046DA-228B-47D8-9A6A-DB6D94F17990}
+	EndGlobalSection
+EndGlobal
