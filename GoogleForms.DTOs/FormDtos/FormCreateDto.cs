@@ -6,6 +6,6 @@ namespace GoogleForms.DTOs
     {
         public string FormTitle { get; set; }
         public string FormDescription { get; set; }
-        public List<QuestionCreateDto> Questions { get; set; }
+        //public List<QuestionListDto>? Questions { get; set; }
     }
 }

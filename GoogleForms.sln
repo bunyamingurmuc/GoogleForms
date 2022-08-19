@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.DAL", "GoogleForms.DAL\GoogleForms.DAL.csproj", "{A5922F74-39E3-4B7F-88CF-F11E8D00EA05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleForms.DAL", "GoogleForms.DAL\GoogleForms.DAL.csproj", "{A5922F74-39E3-4B7F-88CF-F11E8D00EA05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.BLL", "GoogleForms.BLL\GoogleForms.BLL.csproj", "{03304633-6B90-4F5A-9EC0-087590115710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleForms.BLL", "GoogleForms.BLL\GoogleForms.BLL.csproj", "{03304633-6B90-4F5A-9EC0-087590115710}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.Entities", "GoogleForms.Entities\GoogleForms.Entities.csproj", "{658DA189-9DAF-43F6-8323-7236FA498907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleForms.Entities", "GoogleForms.Entities\GoogleForms.Entities.csproj", "{658DA189-9DAF-43F6-8323-7236FA498907}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.DTOs", "GoogleForms.DTOs\GoogleForms.DTOs.csproj", "{9EB18621-D725-4C67-AB11-E18B89F09092}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleForms.DTOs", "GoogleForms.DTOs\GoogleForms.DTOs.csproj", "{9EB18621-D725-4C67-AB11-E18B89F09092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.WebAPI", "GoogleForms.WebAPI\GoogleForms.WebAPI.csproj", "{6C9FE351-7593-4B9E-8849-C94F03387E8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleForms.WebAPI", "GoogleForms.WebAPI\GoogleForms.WebAPI.csproj", "{6C9FE351-7593-4B9E-8849-C94F03387E8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.Common", "GoogleForms.Common\GoogleForms.Common.csproj", "{2606738E-17E8-46A9-A9BD-197F063C91BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleForms.Common", "GoogleForms.Common\GoogleForms.Common.csproj", "{2606738E-17E8-46A9-A9BD-197F063C91BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleForms.WebUI", "GoogleForms.WebUI\GoogleForms.WebUI.csproj", "{D48171B0-D647-4E74-9C8D-C18C804C4ABA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{2606738E-17E8-46A9-A9BD-197F063C91BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2606738E-17E8-46A9-A9BD-197F063C91BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2606738E-17E8-46A9-A9BD-197F063C91BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D48171B0-D647-4E74-9C8D-C18C804C4ABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D48171B0-D647-4E74-9C8D-C18C804C4ABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D48171B0-D647-4E74-9C8D-C18C804C4ABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D48171B0-D647-4E74-9C8D-C18C804C4ABA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

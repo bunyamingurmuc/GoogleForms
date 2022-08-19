@@ -5,10 +5,8 @@ namespace GoogleForms.BLL.Interfaces
 {
     public interface IFormService:IService<FormCreateDto,FormUpdateDto,FormListDto,Form>
     {
-        Task<FormCreateDto> SoruEkle(FormCreateDto dto);
-        Task<List<FormListDto>> SorulariCevaplariIleGetir();
-
-
+        Task<FormCreateDto> AddQuestion(FormCreateDto dto);
+        Task<List<FormListDto>> GetQuestionWithAnswers();
 
     }
 }

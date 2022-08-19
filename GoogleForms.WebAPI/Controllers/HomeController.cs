@@ -25,7 +25,7 @@ namespace GoogleForms.WebAPI.Controllers
         [HttpGet]
         public async Task<Object> GetAll()
         {
-            var form = await _formService.SorulariCevaplariIleGetir();
+            var form = await _formService.GetQuestionWithAnswers();
             var json = JsonConvert.SerializeObject(form, Newtonsoft.Json.Formatting.Indented,
             new JsonSerializerSettings()
             {
@@ -46,14 +46,14 @@ namespace GoogleForms.WebAPI.Controllers
         [HttpPost]
         public async Task<object> CreateQuestion([FromBody] QuestionCreateDto dto)
         {
-           // var form = await _formService.SoruEkle(dto);
+            var form = await _questionService.CreateAsync(dto);
             return true;
         }
         [Route("[action]")]
         [HttpPost]
         public async Task<object> CreateAnswer([FromBody] AnswerCreateDto dto)
         {
-           // var form = await _formService.SoruEkle(dto);
+            var form = await _answerService.CreateAsync(dto);
             return true;
         }
     }

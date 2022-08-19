@@ -6,6 +6,6 @@ namespace GoogleForms.Entities
     {
         public string FormTitle{ get; set; }
         public string FormDescription { get; set; }
-        public List<Question> Questions { get; set; }
+        public List<Question>? Questions { get; set; }
     }
 }

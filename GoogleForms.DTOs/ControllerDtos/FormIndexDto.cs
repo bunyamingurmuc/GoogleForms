@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoogleForms.Common.Enums
+namespace GoogleForms.DTOs
 {
-    public enum AnswerType
+    public class FormIndexDto
     {
-        number,
-        text
-        
+        List<FormListDto> Forms;
+
     }
 }

@@ -1,0 +1,27 @@
+﻿@model FormCreateDto
+@{
+    ViewData["Title"] = "FormCreate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="border: solid thin grey; border-radius:20px" class="p-5 mt-5">
+    <form asp-controller="Form" asp-action="FormCreate" method="post">
+        <div class="mb-3">
+            <label asp-for="FormTitle" class="form-label">Form Başlığı</label>
+            <input asp-for="FormTitle" class="form-control">
+            <span asp-validation-for="FormTitle" class="text-danger"></span>
+            <div class="form-text">Form başlığını Girin</div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="FormDescription" class="form-label">Form Açıklaması</label>
+            <input asp-for="FormDescription" class="form-control">
+            <span asp-validation-for="FormDescription" class="text-danger"></span>
+
+            <div class="form-text">Form Açıklamasını Girin</div>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Formu Oluştur</button>
+    </form>
+</div>
+

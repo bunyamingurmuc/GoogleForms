@@ -10,8 +10,9 @@ namespace GoogleForms.DTOs
         public bool IsRequired { get; set; }
         public QuestionType QuestionType { get; set; }
         public int FormId { get; set; }
-        public FormCreateDto Form { get; set; }
-        public List<AnswerCreateDto> Answers { get; set; }
+        //public FormListDto Form { get; set; }
+
+       
     }
    
 }

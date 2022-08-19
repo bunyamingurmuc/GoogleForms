@@ -12,5 +12,17 @@ namespace GoogleForms.DTOs
         public int FormId { get; set; }
         public FormUpdateDto Form { get; set; }
         public List<AnswerUpdateDto> Answers { get; set; }
+
+        public double? AverageAnswersValue { get; set; }
+        public double? AverageOfAllAnswers { get; set; }
+        public double? MinAnsweresValue { get; set; }
+        public double? MaxAnsweresValue { get; set; }
+        public double? CorrectAnswerAverage { get; set; }
+        public double? WrongAnswerAverage { get; set; }
+
+
+        public int NumberOfAnswers { get; set; }
+        public double? MinChoiceAnsweresValue { get; set; }
+        public double? MaxChoiceAnsweresValue { get; set; }
     }
 }

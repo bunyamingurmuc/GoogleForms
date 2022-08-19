@@ -22,7 +22,7 @@ namespace GoogleForms.BLL.Services
             _uow = uow;
         }
 
-        public async Task<FormCreateDto> SoruEkle(FormCreateDto dto)
+        public async Task<FormCreateDto> AddQuestion(FormCreateDto dto)
         {
             var entity= _mapper.Map<Form>(dto);
            await _uow.GetRepository<Form>().CreateAsync(entity);
@@ -30,7 +30,7 @@ namespace GoogleForms.BLL.Services
             return dto;
         }
 
-        public async Task<List<FormListDto>> SorulariCevaplariIleGetir()
+        public async Task<List<FormListDto>> GetQuestionWithAnswers()
         {
             var question =await  _uow.GetRepository<Form>().GetQuery();
             var questionList = await question

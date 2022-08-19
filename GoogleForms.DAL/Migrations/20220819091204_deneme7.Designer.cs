@@ -4,6 +4,7 @@ using GoogleForms.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoogleForms.DAL.Migrations
 {
     [DbContext(typeof(GoogleFormsContext))]
-    partial class GoogleFormsContextModelSnapshot : ModelSnapshot
+    [Migration("20220819091204_deneme7")]
+    partial class deneme7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -39,12 +41,6 @@ namespace GoogleForms.DAL.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<bool>("IsItTrueAnswer")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("NumberOfChoose")
-                        .HasColumnType("int");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
@@ -94,15 +90,6 @@ namespace GoogleForms.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<double?>("AverageAnswersValue")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("AverageOfAllAnswers")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("CorrectAnswerAverage")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -115,30 +102,12 @@ namespace GoogleForms.DAL.Migrations
                     b.Property<bool>("IsRequired")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("MaxAnsweresValue")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("MaxChoiceAnsweresValue")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("MinAnsweresValue")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("MinChoiceAnsweresValue")
-                        .HasColumnType("float");
-
-                    b.Property<int>("NumberOfAnswers")
-                        .HasColumnType("int");
-
                     b.Property<string>("QuestionTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("QuestionType")
                         .HasColumnType("int");
-
-                    b.Property<double?>("WrongAnswerAverage")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
