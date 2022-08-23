@@ -9,6 +9,7 @@ namespace GoogleForms.BLL.ValidationRules
         {
             RuleFor(x => x.FormTitle).NotEmpty().WithMessage("Form Başlığı boş geçilemez");
             RuleFor(x => x.FormDescription).NotEmpty().WithMessage("Form Açıklaması boş geçilemez");
+
         }
     }
 }

@@ -1,8 +1,54 @@
-﻿
+﻿@model QuestionCreateController
 @{
     ViewData["Title"] = "QuestionCreate";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>QuestionCreate</h1>
+<div style="border: solid thin red; border-radius:20px" class="p-5 mt-5">
+    <div>
+ 
+        <div class="mb-3">
+            <label class="form-label">Form Başlığı</label>
+            <span value="@Model.FormListDto.FormTitle" class="form-control form-control-sm" disabled></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Form Başlığı</label>
+            <span value="@Model.FormListDto.FormDescription" class="form-control form-control-sm" disabled><span>
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+        <form asp-controller="Form" asp-action="QuestionCreate" method="post" class="row gy-2 gx-3 align-items-center">
+
+            <div class="mb-1">
+                <label class="form-label">Soru Başlığını Giriniz</label>
+                <input asp-controller="Form" asp-action="QuestionCreate" asp-for="questionCreateDto.QuestionTitle" class="form-control" rows="3">
+            </div>
+
+            <div class="mt-1">
+                <label class="mb-1">Soru Tipi</label>
+                <select class="form-select" asp-for="questionCreateDto.QuestionType">
+                    <option selected>Soru Tipini Seçiniz</option>
+                    <option value="0"> Coktan Secmeli</option>
+                    <option value="1">Kisa Yanit</option>
+                    <option value="2">Paragraf</option>
+                    <option value="3">Onay Kutuları</option>
+                </select>
+            </div>
+
+            <div class="mt-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" asp-controller="Form" asp-action="QuestionCreate" asp-for="questionCreateDto.IsRequired">
+                    <label class="form-check-label">
+                        Doldurulması zorunlu
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Cevap Ekle</button>
+        </form>
+    </div>
+</div>
+
 

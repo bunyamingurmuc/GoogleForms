@@ -8,9 +8,9 @@ namespace GoogleForms.Common.Enums
 {
     public enum QuestionType
     {
-        CoktanSecmeli,
-        KisaYanit,
-        Paragraf,
-        OnayKutulari,
+        CoktanSecmeli=0,
+        KisaYanit = 1,
+        Paragraf=2,
+        OnayKutulari=3,
     }
 }

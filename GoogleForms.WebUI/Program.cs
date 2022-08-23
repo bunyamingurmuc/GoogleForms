@@ -3,13 +3,14 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using GoogleForms.BLL.DependencyResolvers;
 using GoogleForms.BLL.Helper;
+using GoogleForms.BLL.ValidationRules;
 using GoogleForms.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDependencies(builder.Configuration);
 builder.Services.AddControllersWithViews();
-builder.Services.AddValidatorsFromAssemblyContaining<FormCreateDto>();
+//builder.Services.AddValidatorsFromAssemblyContaining<FormCreateDto>();
 
 
 var profiles = ProfileHelper.GetProfiles();
