@@ -27,7 +27,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Form}/{action=Index}"
+        pattern: "{controller=Form}/{action=Index}/{id?}"
     );
 });
 

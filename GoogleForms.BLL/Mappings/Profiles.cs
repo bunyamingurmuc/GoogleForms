@@ -19,6 +19,13 @@ namespace GoogleForms.BLL.Mappings
             CreateMap<AnswerCreateDto, Answer>().ReverseMap();
             CreateMap<AnswerUpdateDto, Answer>().ReverseMap();
             CreateMap<AnswerListDto, Answer>().ReverseMap();
+
+            CreateMap<AnswerCreateDto, UserAnswer>().ReverseMap();
+            CreateMap<AnswerUpdateDto, UserAnswer>().ReverseMap();
+            CreateMap<AnswerListDto, UserAnswer>().ReverseMap();
+
+            
+
         }
 
     }

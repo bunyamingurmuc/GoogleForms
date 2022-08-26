@@ -11,7 +11,8 @@ namespace GoogleForms.Entities
         public int FormId { get; set; }
         public Form Form { get; set; }
         public List<Answer> Answers { get; set; }
-        
+        public List<UserAnswer> UserAnswers { get; set; }
+
         public double? AverageAnswersValue { get; set; }
         public double? AverageOfAllAnswers { get; set; }
         public double? MinAnsweresValue { get; set; }

@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using GoogleForms.BLL.Extensions;
 using GoogleForms.BLL.Interfaces;
-using GoogleForms.BLL.ValidationRules;
 using GoogleForms.DTOs;
-using GoogleForms.DTOs.Interfaces;
+using GoogleForms.DTOs.ControllerDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoogleForms.WebUI.Controller2
@@ -17,6 +15,8 @@ namespace GoogleForms.WebUI.Controller2
         private readonly IValidator<FormCreateDto> _fcreateDtoValidator;
         private readonly IValidator<QuestionCreateDto> _qcreateDtoValidator;
         private readonly IValidator<AnswerCreateDto> _acreateDtoValidator;
+        public FormListDto globalFormListDto = new FormListDto();
+      //  public int formGlobalId;
 
         public FormController(IFormService formService, IQuestionService questionService, IAnswerService answerService, IValidator<FormCreateDto> fcreateDtoValidator, IValidator<QuestionCreateDto> qcreateDtoValidator, IValidator<AnswerCreateDto> acreateDtoValidator)
         {
@@ -34,6 +34,10 @@ namespace GoogleForms.WebUI.Controller2
 
             return View(forms);
         }
+        public async Task<IActionResult> FormView(FormListDto dto)
+        {
+            return View(dto);
+        }
         public async Task<IActionResult> FormCreate()
         {
             return View();
@@ -42,40 +46,96 @@ namespace GoogleForms.WebUI.Controller2
         [HttpPost]
         public async Task<IActionResult> FormCreate(FormCreateDto dto)
         {
-            
-           var result= _fcreateDtoValidator.Validate(dto);
+
+            var result = _fcreateDtoValidator.Validate(dto);
             if (!result.IsValid)
             {
                 ModelState.Clear();
                 foreach (var error in result.ConvertToCustomValidationError())
                 {
-                    
                     ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                 }
                 return View(dto);
             }
             var form = await _formService.CreateAsync(dto);
             var forms = await _formService.GetAllAsync();
-           var formListDto=forms.Where(i=>i.FormTitle==form.FormTitle&&i.FormDescription==form.FormDescription).FirstOrDefault();
-
-         //   ViewBag.id=formId;
-            return RedirectToAction("QuestionCreate",formListDto);
+            var formListDto = forms.Where(i => i.FormTitle == form.FormTitle && i.FormDescription == form.FormDescription).FirstOrDefault();
+            globalFormListDto.Id = formListDto.Id;
+            globalFormListDto.FormTitle = form.FormTitle;
+            globalFormListDto.FormDescription = form.FormDescription;            
+            return RedirectToAction("FormView", globalFormListDto);
         }
-        public async Task<IActionResult> QuestionCreate(FormListDto formListDto)
+
+        
+        public async Task<IActionResult> QuestionCreate(int id)
         {
-            QuestionCreateController dto = new();
-            dto.FormListDto = formListDto;
-            if (formListDto.Questions!=null)
+          
+          QuestionCreateDto dto = new QuestionCreateDto();
+            dto.FormId = id;
+            return View(dto); 
+        }
+        [HttpPost]
+        public async Task<IActionResult> QuestionCreate(QuestionCreateDto questionCreateDto)
+
+        {
+
+            var result = _qcreateDtoValidator.Validate(questionCreateDto);
+            if (!result.IsValid)
             {
-                dto.questionListDtos = formListDto.Questions;
+                ModelState.Clear();
+                foreach (var error in result.ConvertToCustomValidationError())
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return View(questionCreateDto);
             }
+
+            await _questionService.CreateAsync(questionCreateDto);
+
+            var formlists = await _formService.GetAllAsync();
+            var formListDto = formlists.FirstOrDefault(i => i.Id == questionCreateDto.FormId);
+          
+            return View("FormView", formListDto);
+        }
+        public async Task<IActionResult> AnswerCreate(int id)
+        {
            
+            AnswerCreateDto dto = new AnswerCreateDto();
+            dto.QuestionId = id;
             return View(dto);
         }
         [HttpPost]
-        public async Task<IActionResult> QuestionCreate(QuestionCreateDto dto)
+        public async Task<IActionResult> AnswerCreate(AnswerCreateDto dto)
         {
+            var result = _acreateDtoValidator.Validate(dto);
+            if (!result.IsValid)
+            {
+                ModelState.Clear();
+                foreach (var error in result.ConvertToCustomValidationError())
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return View(dto);
+            }
+            await _answerService.CreateAsync(dto);
+            var questions = await _questionService.GetAllAsync();
+            var questionListDto = questions.FirstOrDefault(i => i.Id == dto.QuestionId);
+            var formLists= await _formService.GetAllAsync();
+            var formListDto = formLists.FirstOrDefault(i => i.Id == questionListDto.FormId);
+            return View("FormView", formListDto);
+        }
+
+        public async Task<IActionResult> JoinForm(int id)
+        {
+            var formListDto= await _formService.GetByIdAsync<FormListDto>(id);
+            return View(formListDto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> JoinForm(FormListDto dto)
+        {
+
             return View();
         }
+        
     }
 }

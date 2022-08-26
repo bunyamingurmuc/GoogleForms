@@ -57,6 +57,140 @@ namespace GoogleForms.DAL.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8507),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 1,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8509),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 1,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8510),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 1,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8510),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 1,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8511),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 1,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8511),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 2,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8512),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 3,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8512),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 4,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8513),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 4,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8513),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 4,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8514),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 4,
+                            answerType = 0
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8515),
+                            Description = "Deneme Cevabı 1",
+                            IsDeleted = false,
+                            IsItTrueAnswer = false,
+                            NumberOfChoose = 0,
+                            QuestionId = 4,
+                            answerType = 0
+                        });
                 });
 
             modelBuilder.Entity("GoogleForms.Entities.Form", b =>
@@ -84,6 +218,24 @@ namespace GoogleForms.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Forms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8192),
+                            FormDescription = "Deneme Formu Açıklaması1",
+                            FormTitle = "Deneme Formu Başlığı2",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8204),
+                            FormDescription = "Deneme Formu Açıklaması2",
+                            FormTitle = "Deneme Formu Başlığı2",
+                            IsDeleted = false
+                        });
                 });
 
             modelBuilder.Entity("GoogleForms.Entities.Question", b =>
@@ -145,6 +297,89 @@ namespace GoogleForms.DAL.Migrations
                     b.HasIndex("FormId");
 
                     b.ToTable("Questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8424),
+                            FormId = 1,
+                            IsDeleted = false,
+                            IsRequired = false,
+                            NumberOfAnswers = 0,
+                            QuestionTitle = "Deneme Sorusu1 ",
+                            QuestionType = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8425),
+                            FormId = 1,
+                            IsDeleted = false,
+                            IsRequired = false,
+                            NumberOfAnswers = 0,
+                            QuestionTitle = "Deneme Sorusu1 ",
+                            QuestionType = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8426),
+                            FormId = 2,
+                            IsDeleted = false,
+                            IsRequired = false,
+                            NumberOfAnswers = 0,
+                            QuestionTitle = "Deneme Sorusu1 ",
+                            QuestionType = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedDate = new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8426),
+                            FormId = 2,
+                            IsDeleted = false,
+                            IsRequired = false,
+                            NumberOfAnswers = 0,
+                            QuestionTitle = "Deneme Sorusu1 ",
+                            QuestionType = 3
+                        });
+                });
+
+            modelBuilder.Entity("GoogleForms.Entities.UserAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsItTrueAnswer")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberOfChoose")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("answerType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("UserAnswer");
                 });
 
             modelBuilder.Entity("GoogleForms.Entities.Answer", b =>
@@ -169,6 +404,17 @@ namespace GoogleForms.DAL.Migrations
                     b.Navigation("Form");
                 });
 
+            modelBuilder.Entity("GoogleForms.Entities.UserAnswer", b =>
+                {
+                    b.HasOne("GoogleForms.Entities.Question", "Question")
+                        .WithMany("UserAnswers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("GoogleForms.Entities.Form", b =>
                 {
                     b.Navigation("Questions");
@@ -177,6 +423,8 @@ namespace GoogleForms.DAL.Migrations
             modelBuilder.Entity("GoogleForms.Entities.Question", b =>
                 {
                     b.Navigation("Answers");
+
+                    b.Navigation("UserAnswers");
                 });
 #pragma warning restore 612, 618
         }

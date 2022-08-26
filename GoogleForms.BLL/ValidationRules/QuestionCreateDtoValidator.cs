@@ -12,7 +12,8 @@ namespace GoogleForms.BLL.ValidationRules
     {
         public QuestionCreateDtoValidator()
         {
-
+            RuleFor(x => x.QuestionTitle).NotEmpty().WithMessage("Soru Başlığı boş geçilemez");
+            
         }
     }
 }

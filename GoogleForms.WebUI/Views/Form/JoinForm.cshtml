@@ -1,0 +1,41 @@
+﻿@using GoogleForms.Common.Enums
+@model FormListDto
+@{
+    ViewData["Title"] = "JoinForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="joinform" method="post">
+    <div class="m-4">
+        <div y>
+            <div >
+                <h5 class="card-title">@Model.FormTitle</h5>
+                <p class="card-text">@Model.FormDescription</p>
+                @if (Model.Questions != null)
+                {
+
+                    @foreach (var question in Model.Questions)
+                    {
+                        if (question.QuestionType == QuestionType.KisaYanit)
+                        {
+                            
+                        }
+                        else if (question.QuestionType == QuestionType.Paragraf)
+                        {
+                            
+                        }
+                        else if (question.QuestionType == QuestionType.CoktanSecmeli)
+                        {
+                            
+                        }
+                        else if (question.QuestionType == QuestionType.OnayKutulari)
+                        {
+                           
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <button class="btn tbn-primary" type="submit" asp-action="joinform" asp-route-id="@Model.Id">Gönder</button>
+</form>

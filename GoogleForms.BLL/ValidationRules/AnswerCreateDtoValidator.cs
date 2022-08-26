@@ -12,7 +12,7 @@ namespace GoogleForms.BLL.ValidationRules
     {
         public AnswerCreateDtoValidator()
         {
-
+            RuleFor(x => x.Description).NotEmpty().WithMessage("Cevap alanı boş geçilemez");
         }
     }
 }
