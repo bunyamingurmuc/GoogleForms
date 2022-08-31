@@ -7,40 +7,30 @@
 
 
 
+<form asp-controller="form" asp-action="JoinForm" method="post">
 
-
-@if (Model.Count==1)
-{
-    <form asp-controller="form" asp-action="JoinForm" method="post">
-        <input type="hidden" asp-action="joinform" asp-for="@Model.FirstOrDefault().QuestionId" value="@Model.FirstOrDefault().QuestionId" />
+    @foreach (var answer in Model)
+    {
+        <input type="hidden" asp-action="joinform" asp-for="@answer.QuestionId" value="@answer.QuestionId" />
         <div class="m-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@Model.</h5>
-                    @if (Model.FirstOrDefault().Question.QuestionType == QuestionType.KisaYanit)
+                    <h5 class="card-title">@answer.Question.QuestionTitle</h5>
+                    @if (answer.Question.QuestionType == QuestionType.KisaYanit)
                     {
                         <div class="mb-3">
-                            <label>@Model.FirstOrDefault().Question.QuestionTitle</label>
-
-                            <input type="text" class="form-control" asp-for="@Model.FirstOrDefault().Description">
+                            <label>@answer.Question.QuestionTitle</label>
+                            <input type="text" class="form-control" asp-for="@answer.Description">
                         </div>
                     }
-
-
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg">Gönder</button>
-    </form>
-}
-else
-{
-
-}
+    }
 
 
-
-
+    <button type="submit" class="btn btn-primary btn-lg">Gönder</button>
+</form>
 
 
 

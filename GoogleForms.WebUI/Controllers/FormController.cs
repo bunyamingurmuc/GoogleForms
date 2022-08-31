@@ -129,13 +129,13 @@ namespace GoogleForms.WebUI.Controller2
         {
             var formListDto= await _formService.GetByIdAsync<FormListDto>(id);
             var allAnswers= await _answerService.GetAllAsync();
-            var answersQuary1 =allAnswers.AsQueryable();
-            var answersQuary2 = answersQuary1.Include(x => x.Question);
-            var answers = answersQuary2.Include(x => x.Question).Where(i=>i.Question.FormId==id).ToList();
+            //var answersQuary1 =allAnswers.AsQueryable();
+            //var answersQuary2 = answersQuary1.Include(x => x.Question);
+            var answers = allAnswers.Where(i=>i.Question.FormId==id).ToList();
             return View(answers);
         }
         [HttpPost]
-        public async Task<IActionResult> JoinForm(AnswerListDto answerListDto)
+        public async Task<IActionResult> JoinForm(List<AnswerListDto> answerListDto)
         {
 
             return View();
