@@ -4,6 +4,7 @@ using GoogleForms.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoogleForms.DAL.Migrations
 {
     [DbContext(typeof(GoogleFormsContext))]
-    partial class GoogleFormsContextModelSnapshot : ModelSnapshot
+    [Migration("20220831110454_deneme121")]
+    partial class deneme121
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +64,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7375),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8037),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -73,7 +75,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7376),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8038),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -84,7 +86,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7376),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8038),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -95,7 +97,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7377),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8039),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -106,7 +108,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7377),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8039),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -117,7 +119,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7378),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8040),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -128,7 +130,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 7,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7378),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8041),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -139,7 +141,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 8,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7379),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8041),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -150,7 +152,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 9,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7379),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8042),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -161,7 +163,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 10,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7380),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8042),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -172,7 +174,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 11,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7380),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8043),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -183,7 +185,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 12,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7381),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(8044),
                             Description = "Deneme Cevabı 1",
                             IsDeleted = false,
                             IsItTrueAnswer = false,
@@ -223,7 +225,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7183),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(7847),
                             FormDescription = "Deneme Formu Açıklaması1",
                             FormTitle = "Deneme Formu Başlığı2",
                             IsDeleted = false
@@ -231,7 +233,7 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7196),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(7862),
                             FormDescription = "Deneme Formu Açıklaması2",
                             FormTitle = "Deneme Formu Başlığı2",
                             IsDeleted = false
@@ -260,9 +262,6 @@ namespace GoogleForms.DAL.Migrations
 
                     b.Property<int>("FormId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsAnswered")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -305,9 +304,8 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7322),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(7982),
                             FormId = 1,
-                            IsAnswered = false,
                             IsDeleted = false,
                             IsRequired = false,
                             NumberOfAnswers = 0,
@@ -317,9 +315,8 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7329),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(7983),
                             FormId = 1,
-                            IsAnswered = false,
                             IsDeleted = false,
                             IsRequired = false,
                             NumberOfAnswers = 0,
@@ -329,9 +326,8 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7330),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(7984),
                             FormId = 2,
-                            IsAnswered = false,
                             IsDeleted = false,
                             IsRequired = false,
                             NumberOfAnswers = 0,
@@ -341,9 +337,8 @@ namespace GoogleForms.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2022, 8, 31, 16, 15, 53, 442, DateTimeKind.Local).AddTicks(7331),
+                            CreatedDate = new DateTime(2022, 8, 31, 14, 4, 53, 936, DateTimeKind.Local).AddTicks(7984),
                             FormId = 2,
-                            IsAnswered = false,
                             IsDeleted = false,
                             IsRequired = false,
                             NumberOfAnswers = 0,

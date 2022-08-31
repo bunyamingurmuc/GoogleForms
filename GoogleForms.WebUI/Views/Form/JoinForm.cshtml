@@ -1,41 +1,47 @@
 ﻿@using GoogleForms.Common.Enums
-@model FormListDto
+@model List<AnswerListDto>
 @{
     ViewData["Title"] = "JoinForm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<form asp-action="joinform" method="post">
-    <div class="m-4">
-        <div y>
-            <div >
-                <h5 class="card-title">@Model.FormTitle</h5>
-                <p class="card-text">@Model.FormDescription</p>
-                @if (Model.Questions != null)
-                {
 
-                    @foreach (var question in Model.Questions)
+
+
+
+@if (Model.Count==1)
+{
+    <form asp-controller="form" asp-action="JoinForm" method="post">
+        <input type="hidden" asp-action="joinform" asp-for="@Model.FirstOrDefault().QuestionId" value="@Model.FirstOrDefault().QuestionId" />
+        <div class="m-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.</h5>
+                    @if (Model.FirstOrDefault().Question.QuestionType == QuestionType.KisaYanit)
                     {
-                        if (question.QuestionType == QuestionType.KisaYanit)
-                        {
-                            
-                        }
-                        else if (question.QuestionType == QuestionType.Paragraf)
-                        {
-                            
-                        }
-                        else if (question.QuestionType == QuestionType.CoktanSecmeli)
-                        {
-                            
-                        }
-                        else if (question.QuestionType == QuestionType.OnayKutulari)
-                        {
-                           
-                        }
+                        <div class="mb-3">
+                            <label>@Model.FirstOrDefault().Question.QuestionTitle</label>
+
+                            <input type="text" class="form-control" asp-for="@Model.FirstOrDefault().Description">
+                        </div>
                     }
-                }
+
+
+                </div>
             </div>
         </div>
-    </div>
-    <button class="btn tbn-primary" type="submit" asp-action="joinform" asp-route-id="@Model.Id">Gönder</button>
-</form>
+        <button type="submit" class="btn btn-primary btn-lg">Gönder</button>
+    </form>
+}
+else
+{
+
+}
+
+
+
+
+
+
+
+

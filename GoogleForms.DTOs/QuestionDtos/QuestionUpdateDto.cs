@@ -5,14 +5,18 @@ namespace GoogleForms.DTOs
 {
     public class QuestionUpdateDto : IUpdateDto
     {
+        public QuestionUpdateDto()
+        {
+            UserAnswers = new List<AnswerListDto>();
+        }
         public int Id { get; set; }
         public string QuestionTitle { get; set; }
         public bool IsRequired { get; set; }
         public QuestionType QuestionType { get; set; }
         public int FormId { get; set; }
         public FormUpdateDto Form { get; set; }
-        public List<AnswerUpdateDto> Answers { get; set; }
-        public List<AnswerListDto> UserAnswers { get; set; }
+        public List<AnswerUpdateDto>? Answers { get; set; }
+        public List<AnswerListDto>? UserAnswers { get; set; }
 
 
         public double? AverageAnswersValue { get; set; }
@@ -26,5 +30,6 @@ namespace GoogleForms.DTOs
         public int NumberOfAnswers { get; set; }
         public double? MinChoiceAnsweresValue { get; set; }
         public double? MaxChoiceAnsweresValue { get; set; }
+        public bool IsAnswered { get; set; }
     }
 }

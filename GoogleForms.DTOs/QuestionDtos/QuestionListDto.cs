@@ -5,14 +5,18 @@ namespace GoogleForms.DTOs
 {
     public class QuestionListDto: IDto
     {
-
+        public QuestionListDto()
+        {
+            UserAnswers = new List<AnswerListDto>();
+        }
         public int Id { get; set; }
         public string QuestionTitle { get; set; }
         public bool IsRequired { get; set; }
         public QuestionType QuestionType { get; set; }
         public int FormId { get; set; }
         public List<AnswerListDto>? Answers { get; set; }
-        public List<AnswerListDto> UserAnswers { get; set; }
+        public List<AnswerListDto>? UserAnswers { get; set; }
+        public bool IsAnswered { get; set; }
 
         //public double? AverageAnswersValue { get; set; }
         //public double? AverageOfAllAnswers { get; set; }

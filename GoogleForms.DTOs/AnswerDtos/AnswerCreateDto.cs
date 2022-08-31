@@ -11,6 +11,7 @@ namespace GoogleForms.DTOs
         public string Description { get; set; }
         public AnswerType answerType { get; set; }
         public bool IsItTrueAnswer { get; set; } = false;
+        public bool IsSelected { get; set; } = false;
 
 
 

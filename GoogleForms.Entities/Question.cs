@@ -5,6 +5,10 @@ namespace GoogleForms.Entities
 {
     public class Question : BaseEntity
     {
+        public Question()
+        {
+            UserAnswers = new List<UserAnswer>();
+        }
         public string QuestionTitle { get; set; }
         public bool IsRequired { get; set; }
         public QuestionType QuestionType{ get; set; }
@@ -23,6 +27,7 @@ namespace GoogleForms.Entities
         public int NumberOfAnswers { get; set; }
         public double? MinChoiceAnsweresValue { get; set; }
         public double? MaxChoiceAnsweresValue { get; set; }
+        public bool IsAnswered { get; set; }
 
 
     }

@@ -2,8 +2,8 @@
 using GoogleForms.BLL.Extensions;
 using GoogleForms.BLL.Interfaces;
 using GoogleForms.DTOs;
-using GoogleForms.DTOs.ControllerDtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoogleForms.WebUI.Controller2
 {
@@ -128,10 +128,14 @@ namespace GoogleForms.WebUI.Controller2
         public async Task<IActionResult> JoinForm(int id)
         {
             var formListDto= await _formService.GetByIdAsync<FormListDto>(id);
-            return View(formListDto);
+            var allAnswers= await _answerService.GetAllAsync();
+            var answersQuary1 =allAnswers.AsQueryable();
+            var answersQuary2 = answersQuary1.Include(x => x.Question);
+            var answers = answersQuary2.Include(x => x.Question).Where(i=>i.Question.FormId==id).ToList();
+            return View(answers);
         }
         [HttpPost]
-        public async Task<IActionResult> JoinForm(FormListDto dto)
+        public async Task<IActionResult> JoinForm(AnswerListDto answerListDto)
         {
 
             return View();
