@@ -25,7 +25,7 @@
                         <td>@form.FormTitle</td>
                         <td>@form.FormDescription</td>
                         <td><a asp-action="joinform" asp-route-id="@form.Id" class="btn btn-success btn-sm">Katıl</a>
-                            <a class="btn btn-danger btn-sm">Analizi Gör</a>
+                            <a asp-action="analizeform" asp-route-id="@form.Id" class="btn btn-danger btn-sm">Analizi Gör</a>
                             <a asp-controller="form" asp-action="formview" asp-route-id="@form.Id" class="btn btn-primary btn-sm">Düzenle</a>
                         </td>
                     </tr>

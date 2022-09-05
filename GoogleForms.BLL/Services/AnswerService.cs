@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using GoogleForms.BLL.Interfaces;
+using GoogleForms.Common.Enums;
 using GoogleForms.DAL.UnitOfWork;
 using GoogleForms.DTOs;
 using GoogleForms.Entities;
@@ -25,29 +26,25 @@ namespace GoogleForms.BLL.Services
 
        
 
-        public async Task<AnswerListDto> TakeTrueAnswer(int id)
-        {
-                var entity= await _uow.GetRepository<Answer>().FindAsync(id);
-                entity.IsItTrueAnswer = true;
-                await _uow.SaveChangesAsycn();
-                return _mapper.Map<AnswerListDto>(entity);
-        }
-        public async Task<AnswerListDto> SetAnswerType(int id)
+
+        public async Task<AnswerType> FindAnswerType(string description)
         {
           
-            var answer = await _uow.GetRepository<Answer>().FindAsync(id);
-            var answerDscription = answer.Description;
+            
+            var answerDscription = description;
             int n;
             bool isNumeric = int.TryParse(answerDscription, out n);
             if (isNumeric==true)
             {
-                answer.answerType = Common.Enums.AnswerType.number;
+               return Common.Enums.AnswerType.number;
             }
             else
             {
-                answer.answerType = Common.Enums.AnswerType.text;
+               return Common.Enums.AnswerType.text;
             }
-            return _mapper.Map<AnswerListDto>(answer);
+
+
+
         }
     }
 }

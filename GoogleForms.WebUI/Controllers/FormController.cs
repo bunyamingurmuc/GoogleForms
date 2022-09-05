@@ -1,9 +1,12 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using GoogleForms.BLL.Extensions;
 using GoogleForms.BLL.Interfaces;
 using GoogleForms.DTOs;
+using GoogleForms.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace GoogleForms.WebUI.Controller2
 {
@@ -15,10 +18,12 @@ namespace GoogleForms.WebUI.Controller2
         private readonly IValidator<FormCreateDto> _fcreateDtoValidator;
         private readonly IValidator<QuestionCreateDto> _qcreateDtoValidator;
         private readonly IValidator<AnswerCreateDto> _acreateDtoValidator;
+        private readonly IValidator<UserAnswerCreateDto> _uacreateDtoValidator;
         public FormListDto globalFormListDto = new FormListDto();
-      //  public int formGlobalId;
+        public readonly IMapper _mapper;
+        //  public int formGlobalId;
 
-        public FormController(IFormService formService, IQuestionService questionService, IAnswerService answerService, IValidator<FormCreateDto> fcreateDtoValidator, IValidator<QuestionCreateDto> qcreateDtoValidator, IValidator<AnswerCreateDto> acreateDtoValidator)
+        public FormController(IFormService formService, IQuestionService questionService, IAnswerService answerService, IValidator<FormCreateDto> fcreateDtoValidator, IValidator<QuestionCreateDto> qcreateDtoValidator, IValidator<AnswerCreateDto> acreateDtoValidator, IMapper mapper, IValidator<UserAnswerCreateDto> uacreateDtoValidator = null)
         {
             _formService = formService;
             _questionService = questionService;
@@ -26,6 +31,8 @@ namespace GoogleForms.WebUI.Controller2
             _fcreateDtoValidator = fcreateDtoValidator;
             _qcreateDtoValidator = qcreateDtoValidator;
             _acreateDtoValidator = acreateDtoValidator;
+            _mapper = mapper;
+            _uacreateDtoValidator = uacreateDtoValidator;
         }
 
         public async Task<IActionResult> Index()
@@ -62,17 +69,17 @@ namespace GoogleForms.WebUI.Controller2
             var formListDto = forms.Where(i => i.FormTitle == form.FormTitle && i.FormDescription == form.FormDescription).FirstOrDefault();
             globalFormListDto.Id = formListDto.Id;
             globalFormListDto.FormTitle = form.FormTitle;
-            globalFormListDto.FormDescription = form.FormDescription;            
+            globalFormListDto.FormDescription = form.FormDescription;
             return RedirectToAction("FormView", globalFormListDto);
         }
 
-        
+
         public async Task<IActionResult> QuestionCreate(int id)
         {
-          
-          QuestionCreateDto dto = new QuestionCreateDto();
+
+            QuestionCreateDto dto = new QuestionCreateDto();
             dto.FormId = id;
-            return View(dto); 
+            return View(dto);
         }
         [HttpPost]
         public async Task<IActionResult> QuestionCreate(QuestionCreateDto questionCreateDto)
@@ -94,12 +101,12 @@ namespace GoogleForms.WebUI.Controller2
 
             var formlists = await _formService.GetAllAsync();
             var formListDto = formlists.FirstOrDefault(i => i.Id == questionCreateDto.FormId);
-          
+
             return View("FormView", formListDto);
         }
         public async Task<IActionResult> AnswerCreate(int id)
         {
-           
+
             AnswerCreateDto dto = new AnswerCreateDto();
             dto.QuestionId = id;
             return View(dto);
@@ -120,26 +127,180 @@ namespace GoogleForms.WebUI.Controller2
             await _answerService.CreateAsync(dto);
             var questions = await _questionService.GetAllAsync();
             var questionListDto = questions.FirstOrDefault(i => i.Id == dto.QuestionId);
-            var formLists= await _formService.GetAllAsync();
+            var formLists = await _formService.GetAllAsync();
             var formListDto = formLists.FirstOrDefault(i => i.Id == questionListDto.FormId);
             return View("FormView", formListDto);
         }
 
         public async Task<IActionResult> JoinForm(int id)
         {
-            var formListDto= await _formService.GetByIdAsync<FormListDto>(id);
-            var allAnswers= await _answerService.GetAllAsync();
-            //var answersQuary1 =allAnswers.AsQueryable();
-            //var answersQuary2 = answersQuary1.Include(x => x.Question);
-            var answers = allAnswers.Where(i=>i.Question.FormId==id).ToList();
-            return View(answers);
+            var formListDto = await _formService.GetByIdAsync<FormListDto>(id);
+            var allAnswers = await _answerService.GetAllAsync();
+            var answers = allAnswers.Where(i => i.Question.FormId == id).ToList();
+            JoinFormDto dto = new JoinFormDto();
+            dto.Questions = formListDto.Questions;
+            List<UserAnswerCreateDto> userAnswerCreateDtos = new List<UserAnswerCreateDto>();
+            List<AnswerListDto> checkBoxAnswers = new();
+
+
+
+
+            for (int i = 0; i < formListDto.Questions.Where(i => i.QuestionType == Common.Enums.QuestionType.KisaYanit || i.QuestionType == Common.Enums.QuestionType.Paragraf).Count(); i++)
+            {
+                userAnswerCreateDtos.Add(new UserAnswerCreateDto() { });
+            }
+            //for (int i = 0; i < answers.Count(); i++)
+            //{
+            //    checkBoxAnswers.Add(new AnswerListDto() { });
+            //}d
+            //dto.CheckBoxAnswers=checkBoxAnswers;
+            dto.UserAnswers = userAnswerCreateDtos;
+
+            return View(dto);
         }
         [HttpPost]
-        public async Task<IActionResult> JoinForm(List<AnswerListDto> answerListDto)
+        public async Task<IActionResult> JoinForm(JoinFormDto dto)
         {
+            var q = await _questionService.GetByIdAsync<QuestionListDto>(dto.Questions[1].Id);
+            var formListDto = await _formService.GetByIdAsync<FormListDto>(q.FormId);
+            var questions = formListDto.Questions;
 
-            return View();
+            foreach (var checkquestion in dto.Questions)
+            {
+                if (checkquestion.QuestionType == Common.Enums.QuestionType.KisaYanit || checkquestion.QuestionType == Common.Enums.QuestionType.Paragraf)
+                {
+                    if (dto.UserAnswers != null)
+                    {
+                        for (int i = 0; i < dto.UserAnswers.Count(); i++)
+                        {
+                            var question = await _questionService.GetByIdAsync<QuestionListDto>(dto.UserAnswers[i].QuestionId);
+                            var bak = dto.UserAnswers[i];
+                            var result = _uacreateDtoValidator.Validate(bak);
+                            if (!result.IsValid)
+                            {
+                                ModelState.Clear();
+                                foreach (var error in result.ConvertToCustomValidationError())
+                                {
+                                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                                }
+                                return View(dto);
+                            }
+                            var findedAnswerType = await _answerService.FindAnswerType(dto.UserAnswers[i].Description);
+                            var answerCreateDto = new AnswerCreateDto()
+                            {
+                                answerType = findedAnswerType,
+                                Description = dto.UserAnswers[i].Description,
+                                QuestionId = dto.UserAnswers[i].QuestionId,
+                                IsItUserAnswer = true,
+                            };
+
+                            var CREATED = await _answerService.CreateAsync(answerCreateDto);
+
+                        }
+                    }
+                }
+                else
+                {
+
+                    var answers = await _answerService.GetAllAsync();
+
+                    foreach (var question in dto.Questions.Where(i => i.QuestionType == Common.Enums.QuestionType.CoktanSecmeli || i.QuestionType == Common.Enums.QuestionType.OnayKutulari))
+                    {
+                        foreach (var answer in question.Answers)
+                        {
+                            if (answer.IsSelected == true)
+                            {
+                                var dbAnswer = await _answerService.GetByIdAsync<AnswerListDto>(answer.Id);
+                                dbAnswer.NumberOfChoose += 1;
+                                await _answerService.UpdateAsync(_mapper.Map<AnswerUpdateDto>(dbAnswer));
+                            }
+
+                        }
+                        var dbQuestion = await _questionService.GetByIdAsync<QuestionListDto>(question.Id);
+                        dbQuestion.NumberOfAnswers += 1;
+                        await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(dbQuestion));
+                    }
+                }
+            }
+
+            return RedirectToAction("Index");
         }
-        
+
+        public async Task<IActionResult> AnalizeForm(int id)
+        {
+            var formListDto = await _formService.GetByIdAsync<FormListDto>(id);
+            bool isItDigit = true;
+            AnswerListDto LeastSelectedAnswer;
+            AnswerListDto MostSelectedAnswer;
+            var answerParagrafKisayanitSum = 0;
+
+            foreach (var question in formListDto.Questions)
+            {
+                if (question.QuestionType == Common.Enums.QuestionType.CoktanSecmeli || question.QuestionType == Common.Enums.QuestionType.OnayKutulari)
+                {
+                    if (question.Answers!=null)
+                    {
+                        foreach (var answer in question.Answers)
+                        {
+                            if (answer.answerType == Common.Enums.AnswerType.text)
+                            {
+                                isItDigit = false;
+                            }
+                        }
+                        var answerchoosesum = question.Answers.Sum(i => i.NumberOfChoose);
+                        if (isItDigit == true)
+                        {
+
+                            double answerandchoicemultiplication = 0;
+                            foreach (var answer in question.Answers)
+                            {
+
+                                answerandchoicemultiplication += answer.NumberOfChoose * Int16.Parse(answer.Description);
+                            }
+
+                            question.AverageAnswersValue = answerandchoicemultiplication / answerchoosesum;
+                        }
+                        foreach (var answer in question.Answers)
+                        {
+                            answer.ChoiceRate = (answer.NumberOfChoose / answerchoosesum);
+                        }
+                        var mostSelectedAnswer = question.Answers.Max(i => i.NumberOfChoose);
+                        var leastedSelectedAnswer = question.Answers.Min(i => i.NumberOfChoose);
+                    }
+                }
+                else
+                {
+                    if (question.QuestionType==Common.Enums.QuestionType.Paragraf||question.QuestionType==Common.Enums.QuestionType.KisaYanit)
+                    {
+                        if (question.Answers!=null)
+                        {
+                            foreach (var answer in question.Answers)
+                            {
+                                if (answer.answerType==Common.Enums.AnswerType.text)
+                                {
+                                    isItDigit = false;
+                                }
+                            }
+                            if (isItDigit==true)
+                            {
+                                answerParagrafKisayanitSum = question.Answers.Sum(i => Int16.Parse(i.Description));
+                                var answers =await _answerService.GetAllAsync();
+                                var answerNumber = answers.Where(i => i.QuestionId == question.Id && i.IsItUserAnswer==true).Count();
+                                question.AverageAnswersValue = answerParagrafKisayanitSum / answerNumber;
+                                question.MinAnsweresValue = question.Answers.Min(i => Int16.Parse(i.Description));
+                                question.MaxAnsweresValue = question.Answers.Max(i => Int16.Parse(i.Description));
+                            }
+                        }
+                    }
+                }
+            }
+            return View(formListDto);
+
+        }
+
+            
     }
+
+
 }
+

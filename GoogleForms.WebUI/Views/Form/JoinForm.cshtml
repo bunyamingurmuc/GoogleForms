@@ -1,5 +1,5 @@
 ﻿@using GoogleForms.Common.Enums
-@model List<AnswerListDto>
+@model JoinFormDto
 @{
     ViewData["Title"] = "JoinForm";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,18 +9,64 @@
 
 <form asp-controller="form" asp-action="JoinForm" method="post">
 
-    @foreach (var answer in Model)
+    @for (int i = 0; i < Model.Questions.Count(); i++)
+
     {
-        <input type="hidden" asp-action="joinform" asp-for="@answer.QuestionId" value="@answer.QuestionId" />
+        <input type="hidden" asp-action="joinform" asp-for="@Model.Questions[i].Id" value="@Model.Questions[i].Id" />
         <div class="m-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@answer.Question.QuestionTitle</h5>
-                    @if (answer.Question.QuestionType == QuestionType.KisaYanit)
+                    <h5 class="card-title">@Model.Questions[i].QuestionTitle</h5>
+                    <input type="hidden" asp-for="@Model.Questions[i].QuestionTitle" />
+                    <input type="hidden" asp-for="@Model.Questions[i].QuestionType" />
+
+
+
+
+                    @if (Model.Questions[i].QuestionType == QuestionType.KisaYanit)
                     {
                         <div class="mb-3">
-                            <label>@answer.Question.QuestionTitle</label>
-                            <input type="text" class="form-control" asp-for="@answer.Description">
+
+                            <label for="exampleFormControlInput1">@Model.Questions[i].QuestionTitle</label>
+                            <input type="hidden" asp-for="@Model.Questions[i].QuestionType" />
+                            <input type="hidden"  asp-for="@Model.UserAnswers[i].QuestionId" value="@Model.Questions[i].Id" />
+                            <input type="text" class="form-control"  asp-for="@Model.UserAnswers[i].Description">
+                        </div>
+                    }
+                    else if (Model.Questions[i].QuestionType == QuestionType.Paragraf)
+                    {
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1">@Model.Questions[i].QuestionTitle</label>
+                            <input type="hidden" asp-for="@Model.Questions[i].QuestionType" />
+                            <input type="hidden"  asp-for="@Model.UserAnswers[i].QuestionId" value="@Model.Questions[i].Id" />
+                            <textarea type="text" class="form-control"  asp-for="@Model.UserAnswers[i].Description"></textarea>
+                        </div>
+                    }
+                    else if (Model.Questions[i].QuestionType == QuestionType.CoktanSecmeli)
+                    {
+                        <div class="form-group" style=" flex-direction: column; flex-direction: column;">
+                            @for (int j = 0; j < Model.Questions[i].Answers.Count(); j++)
+                            {
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Id" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].QuestionId" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Description" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].answerType" />
+                                <input value="true" type="radio" asp-for="Questions[i].Answers[j].IsSelected" /> @Model.Questions[i].Answers[j].Description
+
+                            }
+                        </div>
+                    }
+                    else if (Model.Questions[i].QuestionType == QuestionType.OnayKutulari)
+                    {
+                        <div class="form-group" style=" flex-direction: column; flex-direction: column;">
+                            @for (int j = 0; j < Model.Questions[i].Answers.Count(); j++)
+                            {
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Id" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].QuestionId" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Description" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].answerType" />
+                                <input asp-for="Questions[i].Answers[j].IsSelected" /> @Model.Questions[i].Answers[j].Description
+                            }
                         </div>
                     }
                 </div>
@@ -28,9 +74,11 @@
         </div>
     }
 
+    <div  class="text-danger mt-2 mb-2" asp-validation-summary="All"></div>
 
     <button type="submit" class="btn btn-primary btn-lg">Gönder</button>
 </form>
+
 
 
 

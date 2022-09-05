@@ -1,4 +1,5 @@
 ﻿using GoogleForms.Common;
+using GoogleForms.Common.Enums;
 using GoogleForms.DTOs;
 using GoogleForms.Entities;
 using System;
@@ -11,8 +12,7 @@ namespace GoogleForms.BLL.Interfaces
 {
     public interface IAnswerService:IService< AnswerCreateDto, AnswerUpdateDto, AnswerListDto,Answer >
     {
-        Task<AnswerListDto> TakeTrueAnswer(int id);
-        Task<AnswerListDto> SetAnswerType(int id);
+        Task<AnswerType> FindAnswerType(string description);
 
     }
 }

@@ -30,6 +30,7 @@ namespace GoogleForms.BLL.DependencyResolvers
             services.AddSingleton<IValidator<QuestionUpdateDto>, QuestionUpdateDtoValidator>();
             services.AddSingleton<IValidator<AnswerCreateDto>, AnswerCreateDtoValidator>();
             services.AddSingleton<IValidator<AnswerUpdateDto>, AnswerUpdateDtoValidator>();
+            services.AddSingleton<IValidator<UserAnswerCreateDto>, UserAnswerCreateDtoValidator>();
 
         }
     }
