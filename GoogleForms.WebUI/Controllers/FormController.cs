@@ -155,13 +155,16 @@ namespace GoogleForms.WebUI.Controller2
             //}d
             //dto.CheckBoxAnswers=checkBoxAnswers;
             dto.UserAnswers = userAnswerCreateDtos;
+            var orderedquestion = dto.Questions.OrderBy(i => i.Answers.Where(i => i.IsItUserAnswer == false).Count()).ToList();
+            dto.Questions.Clear();
+            dto.Questions = orderedquestion;
 
             return View(dto);
         }
         [HttpPost]
         public async Task<IActionResult> JoinForm(JoinFormDto dto)
         {
-            var q = await _questionService.GetByIdAsync<QuestionListDto>(dto.Questions[1].Id);
+            var q = await _questionService.GetByIdAsync<QuestionListDto>(dto.Questions[0].Id);
             var formListDto = await _formService.GetByIdAsync<FormListDto>(q.FormId);
             var questions = formListDto.Questions;
 
@@ -206,6 +209,16 @@ namespace GoogleForms.WebUI.Controller2
 
                     foreach (var question in dto.Questions.Where(i => i.QuestionType == Common.Enums.QuestionType.CoktanSecmeli || i.QuestionType == Common.Enums.QuestionType.OnayKutulari))
                     {
+                        if (question.QuestionType==Common.Enums.QuestionType.CoktanSecmeli)
+                        {
+                            if (question.Answers.Where(i=>i.IsSelected==true).Count()>1)
+                            {
+                                ModelState.Clear();
+                                ModelState.AddModelError("", "Coktan seçmeli sorularda en fazla bir seçenek seçebilirsiniz");
+                                return View(dto);
+                            }
+                            
+                        }
                         foreach (var answer in question.Answers)
                         {
                             if (answer.IsSelected == true)
@@ -218,6 +231,7 @@ namespace GoogleForms.WebUI.Controller2
                         }
                         var dbQuestion = await _questionService.GetByIdAsync<QuestionListDto>(question.Id);
                         dbQuestion.NumberOfAnswers += 1;
+                        
                         await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(dbQuestion));
                     }
                 }
@@ -234,71 +248,84 @@ namespace GoogleForms.WebUI.Controller2
             AnswerListDto MostSelectedAnswer;
             var answerParagrafKisayanitSum = 0;
 
-            foreach (var question in formListDto.Questions)
+            if (formListDto.Questions != null)
             {
-                if (question.QuestionType == Common.Enums.QuestionType.CoktanSecmeli || question.QuestionType == Common.Enums.QuestionType.OnayKutulari)
+                foreach (var question in formListDto.Questions)
                 {
-                    if (question.Answers!=null)
+                    if (question.QuestionType == Common.Enums.QuestionType.CoktanSecmeli || question.QuestionType == Common.Enums.QuestionType.OnayKutulari)
                     {
-                        foreach (var answer in question.Answers)
+                        if (question.Answers != null)
                         {
-                            if (answer.answerType == Common.Enums.AnswerType.text)
-                            {
-                                isItDigit = false;
-                            }
-                        }
-                        var answerchoosesum = question.Answers.Sum(i => i.NumberOfChoose);
-                        if (isItDigit == true)
-                        {
+                            isItDigit = true;
 
-                            double answerandchoicemultiplication = 0;
-                            foreach (var answer in question.Answers)
+                            var answerchoosesum = question.Answers.Sum(i => i.NumberOfChoose);
+                            if (answerchoosesum != 0)
                             {
-
-                                answerandchoicemultiplication += answer.NumberOfChoose * Int16.Parse(answer.Description);
-                            }
-
-                            question.AverageAnswersValue = answerandchoicemultiplication / answerchoosesum;
-                        }
-                        foreach (var answer in question.Answers)
-                        {
-                            answer.ChoiceRate = (answer.NumberOfChoose / answerchoosesum);
-                        }
-                        var mostSelectedAnswer = question.Answers.Max(i => i.NumberOfChoose);
-                        var leastedSelectedAnswer = question.Answers.Min(i => i.NumberOfChoose);
-                    }
-                }
-                else
-                {
-                    if (question.QuestionType==Common.Enums.QuestionType.Paragraf||question.QuestionType==Common.Enums.QuestionType.KisaYanit)
-                    {
-                        if (question.Answers!=null)
-                        {
-                            foreach (var answer in question.Answers)
-                            {
-                                if (answer.answerType==Common.Enums.AnswerType.text)
+                                foreach (var answer in question.Answers)
                                 {
-                                    isItDigit = false;
+                                    int rate = (int)((double)answer.NumberOfChoose / answerchoosesum * 100);
+                                    answer.ChoiceRate = rate;
                                 }
                             }
-                            if (isItDigit==true)
+                            else
                             {
-                                answerParagrafKisayanitSum = question.Answers.Sum(i => Int16.Parse(i.Description));
-                                var answers =await _answerService.GetAllAsync();
-                                var answerNumber = answers.Where(i => i.QuestionId == question.Id && i.IsItUserAnswer==true).Count();
-                                question.AverageAnswersValue = answerParagrafKisayanitSum / answerNumber;
-                                question.MinAnsweresValue = question.Answers.Min(i => Int16.Parse(i.Description));
-                                question.MaxAnsweresValue = question.Answers.Max(i => Int16.Parse(i.Description));
+                                foreach (var answer in question.Answers)
+                                {
+                                    answer.ChoiceRate = 0;
+                                }
+                            }
+
+                            var mostSelectedAnswer = question.Answers.Max(i => i.NumberOfChoose);
+                            var leastedSelectedAnswer = question.Answers.Min(i => i.NumberOfChoose);
+                            question.Answers.Where(i => i.NumberOfChoose == mostSelectedAnswer).FirstOrDefault().IsItMostSelected = true;
+                            question.Answers.Where(i => i.NumberOfChoose == leastedSelectedAnswer).FirstOrDefault().IsItLeastSelected = true;
+
+                            var max = question.Answers.Where(i => i.IsItMostSelected).FirstOrDefault();
+                            var min = question.Answers.Where(i => i.IsItLeastSelected).FirstOrDefault();
+                        }
+                    }
+                    else
+                    {
+                        if (question.QuestionType == Common.Enums.QuestionType.Paragraf || question.QuestionType == Common.Enums.QuestionType.KisaYanit)
+                        {
+                            if (question.Answers != null)
+                            {
+                                foreach (var answer in question.Answers)
+                                {
+                                    if (answer.answerType == Common.Enums.AnswerType.text)
+                                    {
+                                        isItDigit = false;
+                                    }
+                                }
+                                if (isItDigit == true)
+                                {
+                                    answerParagrafKisayanitSum = question.Answers.Sum(i => Int16.Parse(i.Description));
+                                    var answers = await _answerService.GetAllAsync();
+                                    var answerNumber = answers.Where(i => i.QuestionId == question.Id && i.IsItUserAnswer == true).Count();
+                                    if (answerNumber > 0)
+                                    {
+                                        question.AverageAnswersValue = answerParagrafKisayanitSum / answerNumber;
+                                        question.MinAnsweresValue = question.Answers.Min(i => Int16.Parse(i.Description));
+                                        question.MaxAnsweresValue = question.Answers.Max(i => Int16.Parse(i.Description));
+                                    }
+
+                                }
                             }
                         }
                     }
                 }
             }
+
             return View(formListDto);
 
         }
 
-            
+        public async Task<IActionResult> FormDownload(int id)
+        {
+            return View();
+        }
+        
+
     }
 
 

@@ -1,0 +1,66 @@
+﻿@model List<AnswerListDto>
+
+@foreach (var answer in Model)
+{
+    if (answer.IsItMostSelected == true)
+    {
+        <div class="alert alert-success" role="alert">
+            <div class="mr-1"><div style="font-size: xx-large">@answer.Description</div> <b>%@answer.ChoiceRate kullanıcı bu cevabı seçti </b></div> <span class="badge text-bg-success">En Çok Seçilen Cevap</span>
+            <div class="progress mt-1 ">
+                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="@answer.ChoiceRate" aria-valuemin="0" aria-valuemax="100" style="width: @answer.ChoiceRate%"></div>
+            </div>
+        </div>
+    }
+
+
+    else if (answer.IsItLeastSelected == false && answer.IsItMostSelected == false)
+    {
+
+        if (answer.ChoiceRate<=25)
+        {
+            <div class="alert alert-primary" role="alert">
+               <div style="font-size: xx-large"> @answer.Description</div>    <b>%@answer.ChoiceRate kullanıcı bu cevabı seçti</b> 
+                <div class="progress mt-1 ">
+                    <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="@answer.ChoiceRate" aria-valuemin="0" aria-valuemax="100" style="width: @answer.ChoiceRate%"></div>
+                </div>
+            </div>
+        }
+        else if (answer.ChoiceRate <= 50)
+        {
+            <div class="alert alert-primary" role="alert">
+               <div style="font-size: xx-large"> @answer.Description</div>    <b>%@answer.ChoiceRate kullanıcı bu cevabı seçti</b>
+                <div class="progress mt-1 ">
+                    <div class="progress-warning progress-bar-striped bg-warning progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="@answer.ChoiceRate" aria-valuemin="0" aria-valuemax="100" style="width: @answer.ChoiceRate%"></div>
+                </div>
+            </div>  
+        }
+        else if (answer.ChoiceRate <= 75)
+        {
+            <div class="alert alert-primary" role="alert">
+                <div style="font-size: xx-large"> @answer.Description</div>    <b>%@answer.ChoiceRate kullanıcı bu cevabı seçti</b>
+                <div class="progress mt-1 ">
+                    <div class="progress-warning progress-bar-striped bg-info progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="@answer.ChoiceRate" aria-valuemin="0" aria-valuemax="100" style="width: @answer.ChoiceRate%"></div>
+                </div>
+            </div>
+        }
+        else if (answer.ChoiceRate <= 100)
+        {
+            <div class="alert alert-primary" role="alert">
+               <div style="font-size: xx-large"> @answer.Description</div>    <b>%@answer.ChoiceRate kullanıcı bu cevabı seçti</b>
+                <div class="progress mt-1 ">
+                    <div class="progress-warning progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="@answer.ChoiceRate" aria-valuemin="0" aria-valuemax="100" style="width: @answer.ChoiceRate%"></div>
+                </div>
+            </div>
+        }
+ 
+    }
+    else if (answer.IsItLeastSelected == true)
+    {
+        <div class="alert alert-primary" role="alert">
+            <div class="mr-1"><div style="font-size: xx-large"> @answer.Description</div>    <b>%@answer.ChoiceRate kullanıcı bu cevabı seçti</b></div><span class="badge text-bg-danger">En Az Seçilen Cevap</span>
+            <div class="progress mt-1 ">
+                <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="@answer.ChoiceRate" aria-valuemin="0" aria-valuemax="100" style="width: @answer.ChoiceRate%"></div>
+            </div>
+        </div>
+    }
+}

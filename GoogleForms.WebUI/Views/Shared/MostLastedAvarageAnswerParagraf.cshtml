@@ -1,0 +1,43 @@
+﻿@model QuestionListDto
+
+<div style="display: flex; flex-direction:row; justify-content: space-evenly">
+
+
+    @if (Model.MaxAnsweresValue!=null)
+    {
+        <div class="card border-secondary mb-3" style="max-width: 18rem;">
+            <div class="card-header">Girilen En Yüksek Değer</div>
+            <div class="card-body text-secondary" style="display: flex; justify-content:center; flex-direction:column; align-items:center">
+                <h2 class="card-text" style="font-size:large">@Model.MaxAnsweresValue</h2>
+            </div>
+        </div>
+    }
+
+    @if (Model.MinAnsweresValue != null)
+    {
+        <div class="card border-success mb-3" style="max-width: 18rem;">
+            <div class="card-header">Girilen En Düşük Değer</div>
+            <div class="card-body text-secondary" style="display: flex; justify-content:center; flex-direction:column; align-items:center">
+                <h2 class="card-text" style="font-size:large">@Model.MinAnsweresValue</h2>
+            </div>
+        </div>
+    }
+    @if (Model.AverageAnswersValue != null)
+    {
+        <div class="card border-success mb-3" style="max-width: 18rem;">
+            <div class="card-header">Ortalama Değer</div>
+            <div class="card-body text-secondary" style="display: flex; justify-content:center; flex-direction:column; align-items:center">
+                <h2 class="card-text" style="font-size:large">@Model.AverageAnswersValue</h2>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
+
+
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@

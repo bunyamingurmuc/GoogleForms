@@ -14,13 +14,15 @@
     {
         <input type="hidden" asp-action="joinform" asp-for="@Model.Questions[i].Id" value="@Model.Questions[i].Id" />
         <div class="m-4">
-            <div class="card">
+            <div class="card ">
                 <div class="card-body">
                     <h5 class="card-title">@Model.Questions[i].QuestionTitle</h5>
                     <input type="hidden" asp-for="@Model.Questions[i].QuestionTitle" />
                     <input type="hidden" asp-for="@Model.Questions[i].QuestionType" />
 
 
+
+                 
 
 
                     @if (Model.Questions[i].QuestionType == QuestionType.KisaYanit)
@@ -29,6 +31,7 @@
 
                             <label for="exampleFormControlInput1">@Model.Questions[i].QuestionTitle</label>
                             <input type="hidden" asp-for="@Model.Questions[i].QuestionType" />
+                            <input type="hidden" asp-for="@Model.Questions[i].FormId"  />
                             <input type="hidden"  asp-for="@Model.UserAnswers[i].QuestionId" value="@Model.Questions[i].Id" />
                             <input type="text" class="form-control"  asp-for="@Model.UserAnswers[i].Description">
                         </div>
@@ -44,15 +47,16 @@
                     }
                     else if (Model.Questions[i].QuestionType == QuestionType.CoktanSecmeli)
                     {
-                        <div class="form-group" style=" flex-direction: column; flex-direction: column;">
+                        
+                        <div class="form-group" style=" ">
                             @for (int j = 0; j < Model.Questions[i].Answers.Count(); j++)
                             {
-                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Id" />
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].QuestionId" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Id" />
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Description" />
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].answerType" />
-                                <input value="true" type="radio" asp-for="Questions[i].Answers[j].IsSelected" /> @Model.Questions[i].Answers[j].Description
-
+                                <input asp-for="@Model.Questions[i].Answers[j].IsSelected" type="radio" value="true" /> @Html.DisplayNameFor(x=>x.Questions[i].Answers[j].IsSelected)  @Model.Questions[i].Answers[j].Description
+                             
                             }
                         </div>
                     }

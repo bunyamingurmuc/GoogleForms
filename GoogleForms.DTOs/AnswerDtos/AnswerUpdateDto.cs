@@ -13,7 +13,7 @@ namespace GoogleForms.DTOs
         public bool IsItUserAnswer { get; set; } = false;
         public bool IsSelected { get; set; } = false;
         public int NumberOfChoose { get; set; }
-        public double? ChoiceRate { get; set; }
+        public int? ChoiceRate { get; set; }
         public bool IsItLeastSelected { get; set; } = false;
         public bool IsItMostSelected { get; set; } = false;
 

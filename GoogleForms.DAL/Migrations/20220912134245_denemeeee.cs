@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GoogleForms.DAL.Migrations
 {
-    public partial class deneme4545 : Migration
+    public partial class denemeeee : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,7 @@ namespace GoogleForms.DAL.Migrations
                     NumberOfAnswers = table.Column<int>(type: "int", nullable: false),
                     MinChoiceAnsweresValue = table.Column<double>(type: "float", nullable: true),
                     MaxChoiceAnsweresValue = table.Column<double>(type: "float", nullable: true),
+                    IsAnswered = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -67,8 +68,11 @@ namespace GoogleForms.DAL.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     answerType = table.Column<int>(type: "int", nullable: false),
-                    IsItTrueAnswer = table.Column<bool>(type: "bit", nullable: false),
+                    IsItUserAnswer = table.Column<bool>(type: "bit", nullable: false),
                     NumberOfChoose = table.Column<int>(type: "int", nullable: false),
+                    ChoiceRate = table.Column<int>(type: "int", nullable: true),
+                    IsItLeastSelected = table.Column<bool>(type: "bit", nullable: false),
+                    IsItMostSelected = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -94,6 +98,7 @@ namespace GoogleForms.DAL.Migrations
                     answerType = table.Column<int>(type: "int", nullable: false),
                     IsItTrueAnswer = table.Column<bool>(type: "bit", nullable: false),
                     NumberOfChoose = table.Column<int>(type: "int", nullable: false),
+                    IsSelected = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -111,41 +116,41 @@ namespace GoogleForms.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Forms",
                 columns: new[] { "Id", "CreatedDate", "FormDescription", "FormTitle", "IsDeleted" },
-                values: new object[] { 1, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8192), "Deneme Formu Açıklaması1", "Deneme Formu Başlığı2", false });
+                values: new object[] { 1, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2683), "Deneme Formu Açıklaması1", "Deneme Formu Başlığı1", false });
 
             migrationBuilder.InsertData(
                 table: "Forms",
                 columns: new[] { "Id", "CreatedDate", "FormDescription", "FormTitle", "IsDeleted" },
-                values: new object[] { 2, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8204), "Deneme Formu Açıklaması2", "Deneme Formu Başlığı2", false });
+                values: new object[] { 2, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2704), "Deneme Formu Açıklaması2", "Deneme Formu Başlığı2", false });
 
             migrationBuilder.InsertData(
                 table: "Questions",
-                columns: new[] { "Id", "AverageAnswersValue", "AverageOfAllAnswers", "CorrectAnswerAverage", "CreatedDate", "FormId", "IsDeleted", "IsRequired", "MaxAnsweresValue", "MaxChoiceAnsweresValue", "MinAnsweresValue", "MinChoiceAnsweresValue", "NumberOfAnswers", "QuestionTitle", "QuestionType", "WrongAnswerAverage" },
+                columns: new[] { "Id", "AverageAnswersValue", "AverageOfAllAnswers", "CorrectAnswerAverage", "CreatedDate", "FormId", "IsAnswered", "IsDeleted", "IsRequired", "MaxAnsweresValue", "MaxChoiceAnsweresValue", "MinAnsweresValue", "MinChoiceAnsweresValue", "NumberOfAnswers", "QuestionTitle", "QuestionType", "WrongAnswerAverage" },
                 values: new object[,]
                 {
-                    { 1, null, null, null, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8424), 1, false, false, null, null, null, null, 0, "Deneme Sorusu1 ", 0, null },
-                    { 2, null, null, null, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8425), 1, false, false, null, null, null, null, 0, "Deneme Sorusu1 ", 2, null },
-                    { 3, null, null, null, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8426), 2, false, false, null, null, null, null, 0, "Deneme Sorusu1 ", 1, null },
-                    { 4, null, null, null, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8426), 2, false, false, null, null, null, null, 0, "Deneme Sorusu1 ", 3, null }
+                    { 1, null, null, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2850), 1, false, false, false, null, null, null, null, 0, "Deneme Sorusu1 ", 0, null },
+                    { 2, null, null, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2877), 1, false, false, false, null, null, null, null, 0, "Deneme Sorusu1 ", 2, null },
+                    { 3, null, null, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2878), 2, false, false, false, null, null, null, null, 0, "Deneme Sorusu1 ", 1, null },
+                    { 4, null, null, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2879), 2, false, false, false, null, null, null, null, 0, "Deneme Sorusu1 ", 3, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Answers",
-                columns: new[] { "Id", "CreatedDate", "Description", "IsDeleted", "IsItTrueAnswer", "NumberOfChoose", "QuestionId", "answerType" },
+                columns: new[] { "Id", "ChoiceRate", "CreatedDate", "Description", "IsDeleted", "IsItLeastSelected", "IsItMostSelected", "IsItUserAnswer", "NumberOfChoose", "QuestionId", "answerType" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8507), "Deneme Cevabı 1", false, false, 0, 1, 0 },
-                    { 2, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8509), "Deneme Cevabı 1", false, false, 0, 1, 0 },
-                    { 3, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8510), "Deneme Cevabı 1", false, false, 0, 1, 0 },
-                    { 4, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8510), "Deneme Cevabı 1", false, false, 0, 1, 0 },
-                    { 5, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8511), "Deneme Cevabı 1", false, false, 0, 1, 0 },
-                    { 6, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8511), "Deneme Cevabı 1", false, false, 0, 2, 0 },
-                    { 7, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8512), "Deneme Cevabı 1", false, false, 0, 3, 0 },
-                    { 8, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8512), "Deneme Cevabı 1", false, false, 0, 4, 0 },
-                    { 9, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8513), "Deneme Cevabı 1", false, false, 0, 4, 0 },
-                    { 10, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8513), "Deneme Cevabı 1", false, false, 0, 4, 0 },
-                    { 11, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8514), "Deneme Cevabı 1", false, false, 0, 4, 0 },
-                    { 12, new DateTime(2022, 8, 26, 14, 48, 44, 609, DateTimeKind.Local).AddTicks(8515), "Deneme Cevabı 1", false, false, 0, 4, 0 }
+                    { 1, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2976), "Deneme Cevabı 1", false, false, false, false, 0, 1, 0 },
+                    { 2, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2977), "Deneme Cevabı 1", false, false, false, false, 0, 1, 0 },
+                    { 3, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2977), "Deneme Cevabı 1", false, false, false, false, 0, 1, 0 },
+                    { 4, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2978), "Deneme Cevabı 1", false, false, false, false, 0, 1, 0 },
+                    { 5, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2979), "Deneme Cevabı 1", false, false, false, false, 0, 1, 0 },
+                    { 6, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2979), "Deneme Cevabı 1", false, false, false, false, 0, 2, 0 },
+                    { 7, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2980), "Deneme Cevabı 1", false, false, false, false, 0, 3, 0 },
+                    { 8, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2980), "Deneme Cevabı 1", false, false, false, false, 0, 4, 0 },
+                    { 9, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2981), "Deneme Cevabı 1", false, false, false, false, 0, 4, 0 },
+                    { 10, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2982), "Deneme Cevabı 1", false, false, false, false, 0, 4, 0 },
+                    { 11, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2982), "Deneme Cevabı 1", false, false, false, false, 0, 4, 0 },
+                    { 12, null, new DateTime(2022, 9, 12, 16, 42, 44, 869, DateTimeKind.Local).AddTicks(2983), "Deneme Cevabı 1", false, false, false, false, 0, 4, 0 }
                 });
 
             migrationBuilder.CreateIndex(

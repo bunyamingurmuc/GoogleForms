@@ -29,7 +29,7 @@
                     <div class="card m-3">
                         <div class="card-body">
                             <h5 class="card-title">@question.QuestionTitle</h5>
-                            @foreach (var answer in question.Answers)
+                            @foreach (var answer in question.Answers.Where(i=>i.IsItUserAnswer==false))
                             {
                                 <div >
                                     <p style="color:darkslategrey" class="card-text"><i class="fa-solid fa-circle-notch"></i> @answer.Description</p>

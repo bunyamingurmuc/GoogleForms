@@ -11,7 +11,7 @@ namespace GoogleForms.Entities
         public AnswerType answerType{ get; set; }
         public bool IsItUserAnswer { get; set; } = false;
         public int NumberOfChoose { get; set; }
-        public double? ChoiceRate { get; set; }
+        public int? ChoiceRate { get; set; }
         public bool IsItLeastSelected { get; set; } = false;
         public bool IsItMostSelected { get; set; } = false;
 

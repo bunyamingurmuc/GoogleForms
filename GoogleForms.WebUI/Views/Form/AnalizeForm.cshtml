@@ -4,12 +4,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+
+
 <div class="m-4">
     <div class="card">
         <div class="card-body">
-          
-            
-
+            <h5 class="card-title">@Model.FormTitle</h5>
+            <p class="card-text">@Model.FormDescription</p>
+            @if (Model.Questions != null)
+            {
+                @foreach (var question in Model.Questions)
+                {
+                    <div class="m-4">
+                        <div class="card border-warning">
+                            <div class="card-body">
+                                <h5 class="card-header">@question.QuestionTitle</h5>
+                                <div class="card-body text-primary">
+                                @if (question.QuestionType == GoogleForms.Common.Enums.QuestionType.CoktanSecmeli || question.QuestionType == GoogleForms.Common.Enums.QuestionType.OnayKutulari)
+                                {
+                                    @Html.Partial("MostLastedAvarageAnswer",question)
+                                    @Html.Partial("AnalizeFormCoktanSecmeliAnswerList",question.Answers)
+                                }
+                                else
+                                {
+                                    @Html.Partial("MostLastedAvarageAnswerParagraf",question)
+                                    @Html.Partial("ShowAnswersParagraf",question)
+                                    
+                                    
+                                }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>

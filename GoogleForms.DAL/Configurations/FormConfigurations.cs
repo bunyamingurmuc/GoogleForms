@@ -15,7 +15,7 @@ namespace GoogleForms.DAL.Configurations
         {
             builder.HasData(new Form[]
             {
-               new Form{ Id=1, FormDescription= "Deneme Formu Açıklaması1", FormTitle="Deneme Formu Başlığı2", },
+               new Form{ Id=1, FormDescription= "Deneme Formu Açıklaması1", FormTitle="Deneme Formu Başlığı1", },
                new Form{ Id=2, FormDescription= "Deneme Formu Açıklaması2", FormTitle="Deneme Formu Başlığı2", },
 
             });
