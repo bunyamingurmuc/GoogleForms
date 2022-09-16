@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace GoogleForms.DAL.Interfaces
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<T> 
     {
         Task<List<T>> GetAllAsync();
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter);

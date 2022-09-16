@@ -10,7 +10,7 @@ namespace GoogleForms.Entities
             UserAnswers = new List<UserAnswer>();
         }
         public string QuestionTitle { get; set; }
-        public bool IsRequired { get; set; }
+        public bool IsUnique { get; set; } = false;
         public QuestionType QuestionType{ get; set; }
         public int FormId { get; set; }
         public Form Form { get; set; }

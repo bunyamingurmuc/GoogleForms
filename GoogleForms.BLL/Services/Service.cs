@@ -66,8 +66,6 @@ namespace GoogleForms.BLL.Services
             if (result.IsValid)
             {
                 var unchangedData = await _uow.GetRepository<T>().FindAsync(dto.Id);
-              
-
                 var entity = _mapper.Map<T>(dto);
                 _uow.GetRepository<T>().Update(entity, unchangedData);
                 await _uow.SaveChangesAsycn();

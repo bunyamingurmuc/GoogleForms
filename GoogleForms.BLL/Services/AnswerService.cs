@@ -46,5 +46,24 @@ namespace GoogleForms.BLL.Services
 
 
         }
+
+        public  async Task<bool> FindIsItUnique(string description, int questionId)
+        {
+            var allAnswers = await _uow.GetRepository<Answer>().GetAllAsync();
+            var answers= allAnswers.Where(a => a.QuestionId == questionId).ToList();
+            var isItUnique = true;
+            if (answers!=null)
+            {
+                foreach (var answer in answers)
+                {
+                    if (answer.Description.Trim()==description.Trim())
+                    {
+                        isItUnique=false;
+                    }
+                }
+            }
+            return isItUnique;
+            
+        }
     }
 }

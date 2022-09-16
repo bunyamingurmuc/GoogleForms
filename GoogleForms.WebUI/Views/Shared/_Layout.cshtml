@@ -22,23 +22,41 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor03">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a asp-controller="Form" asp-action="Index" class="nav-link ">Formlar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a sp-controller="Form" asp-action="FormCreate" class="nav-link">Form Oluştur</a>
-                        </li>
 
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-primary" type="submit">Search</button>
-                    </form>
+                    @if (User!=null && User.IsInRole("Admin"))
+                    {
+                            <li class="nav-item">
+                                <a asp-controller="User" asp-action="Index" class="nav-link ">Kullanıcı Listesi</a>
+                                <a asp-controller="Role" asp-action="Index" class="nav-link ">Rol Listesi</a>
+                            </li>
+                        }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        
+                            <li class="nav-item">
+                                <a asp-controller="Form" asp-action="Index" class="nav-link ">Formlar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Form" asp-action="FormCreate" class="nav-link">Form Oluştur</a>
+                            </li>
+                       
+                    }
+                </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div style="margin-right: 5px;" class="mr-1"> <a class="btn btn-outline-primary" asp-controller="account" asp-action="logout">Çıkış yap</a></div>
+                    }
+                    else if (!User.Identity.IsAuthenticated)
+                    {
+                        <div style="margin-right: 5px;" class="mr-1"><a class="btn btn-outline-primary" asp-controller="account" asp-action="login">Giriş Yap</a></div>
+                        <div style="margin-right: 5px;" class="mr-1"><a class="btn btn-outline-primary" asp-controller="account" asp-action="createuser">Kayıt Ol</a></div>
+                    }
+
+                    </>
                 </div>
-            </div>
         </nav>
         @RenderBody()
     </div>
-  
+
 </body>
 </html>

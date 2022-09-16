@@ -10,7 +10,7 @@ namespace GoogleForms.DAL.UnitOfWork
 {
     public interface IUOW
     {
-        IRepository<T> GetRepository<T>() where T : BaseEntity;
+        IRepository<T> GetRepository<T>() where T : class;
         Task SaveChangesAsycn();
     }
 }

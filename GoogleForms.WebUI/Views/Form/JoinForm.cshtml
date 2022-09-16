@@ -55,7 +55,7 @@
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Id" />
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Description" />
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].answerType" />
-                                <input asp-for="@Model.Questions[i].Answers[j].IsSelected" type="radio" value="true" /> @Html.DisplayNameFor(x=>x.Questions[i].Answers[j].IsSelected)  @Model.Questions[i].Answers[j].Description
+                                <input asp-for="@Model.Questions[i].Answers[j].IsSelected"  type="radio" value="true" /> @Model.Questions[i].Answers[j].Description
                              
                             }
                         </div>

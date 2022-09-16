@@ -1,10 +1,11 @@
 ﻿using GoogleForms.DAL.Configurations;
 using GoogleForms.Entities;
+using GoogleForms.Entities.UserEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoogleForms.DAL.Context
 {
-    public class GoogleFormsContext:DbContext
+    public class GoogleFormsContext: Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext<AppUser,AppRole,int>
     {
         public GoogleFormsContext(DbContextOptions<GoogleFormsContext> options) : base(options)
         {

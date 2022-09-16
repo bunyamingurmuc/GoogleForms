@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace GoogleForms.DAL.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly GoogleFormsContext _context;
 

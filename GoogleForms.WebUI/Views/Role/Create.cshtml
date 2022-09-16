@@ -1,0 +1,21 @@
+﻿@model ControllerCreateRoleDto
+@{
+    ViewData["Title"] = "CreateUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form asp-controller="role" asp-action="Create" method="post" class="p-3 w-75  mx-auto shadow" style="margin-top: 15%">
+
+
+    <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-label">İsim</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="İsminizi girin">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Role Ekle</button>
+
+
+    <div class="text-danger mt-2" asp-validation-summary="ModelOnly">
+    </div>
+</form>

@@ -23,11 +23,13 @@ builder.Services.AddSingleton(mapper);
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Form}/{action=Index}/{id?}"
+        pattern: "{controller=form}/{action=home}/{id?}"
     );
 });
 

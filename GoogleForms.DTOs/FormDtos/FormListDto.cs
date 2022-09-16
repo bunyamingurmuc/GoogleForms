@@ -1,4 +1,5 @@
 ﻿using GoogleForms.DTOs.Interfaces;
+using GoogleForms.Entities.UserEntities;
 using System.Reflection.Metadata;
 
 namespace GoogleForms.DTOs
@@ -13,5 +14,7 @@ namespace GoogleForms.DTOs
         public string FormTitle { get; set; }
         public string FormDescription { get; set; }
         public List<QuestionListDto> Questions { get; set; }
+        public List<AppUser> appUsers { get; set; }
+
     }
 }

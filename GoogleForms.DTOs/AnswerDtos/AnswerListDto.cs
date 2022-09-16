@@ -16,9 +16,5 @@ namespace GoogleForms.DTOs
         public int? ChoiceRate { get; set; }
         public bool IsItLeastSelected { get; set; } = false;
         public bool IsItMostSelected { get; set; } = false;
-
-
-
-
     }
 }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GoogleForms.Common\GoogleForms.Common.csproj" />
+    <ProjectReference Include="..\GoogleForms.Entities\GoogleForms.Entities.csproj" />
   </ItemGroup>
 
 </Project>

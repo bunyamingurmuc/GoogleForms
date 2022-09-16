@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GoogleForms.DTOs;
 using GoogleForms.Entities;
+using GoogleForms.Entities.UserEntities;
 
 namespace GoogleForms.BLL.Mappings
 {
@@ -11,6 +12,7 @@ namespace GoogleForms.BLL.Mappings
             CreateMap<FormCreateDto, Form>().ReverseMap();
             CreateMap<FormUpdateDto, Form>().ReverseMap();
             CreateMap<FormListDto, Form>().ReverseMap();
+            CreateMap<FormListDto, FormUpdateDto>().ReverseMap();
 
             CreateMap<QuestionCreateDto, Question>().ReverseMap();
             CreateMap<QuestionUpdateDto, Question>().ReverseMap();
@@ -26,7 +28,8 @@ namespace GoogleForms.BLL.Mappings
             CreateMap<AnswerUpdateDto, UserAnswer>().ReverseMap();
             CreateMap<AnswerListDto, UserAnswer>().ReverseMap();
 
-            
+
+
 
         }
 

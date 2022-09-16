@@ -13,6 +13,7 @@ namespace GoogleForms.BLL.Interfaces
     public interface IAnswerService:IService< AnswerCreateDto, AnswerUpdateDto, AnswerListDto,Answer >
     {
         Task<AnswerType> FindAnswerType(string description);
+        Task<bool> FindIsItUnique(string description, int questionId);
 
     }
 }
