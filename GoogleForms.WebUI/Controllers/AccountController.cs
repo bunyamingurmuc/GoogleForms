@@ -28,17 +28,22 @@ namespace GoogleForms.WebUI.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> LogIn(ControllerLoginAccountDto dto)
         {
             if (ModelState.IsValid)
             {
-            var signInResult= await _signInManager.PasswordSignInAsync(dto.Email, dto.Password,dto.RememberMe,false);
+                var signInResult =
+                    await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, dto.RememberMe, false);
                 if (signInResult.Succeeded)
                 {
                     return RedirectToAction("Index", "form");
                 }
-            }d
+            }
+            return View(dto);
+        }
+
         public async Task<IActionResult> CreateUser()
         {
             return View();

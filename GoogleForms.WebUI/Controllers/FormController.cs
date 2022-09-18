@@ -57,13 +57,14 @@ namespace GoogleForms.WebUI.Controller2
         {
             var forms = await _formService.GetAllAsync();
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            
 
 
             if (user.Forms != null)
             {
-                return View(new List<FormListDto>());
+                return View(_mapper.Map<List<FormListDto>>(user.Forms));
             }
-            return View(user.Forms);
+            return View();
         }
         public async Task<IActionResult> FormView(FormListDto dto)
         {
@@ -90,12 +91,16 @@ namespace GoogleForms.WebUI.Controller2
             }
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
+            
+            dto.appUsers.Add(user);
             var form = await _formService.CreateAsync(dto);
             var forms = await _formService.GetAllAsync();
             var formListDto = forms.Where(i => i.FormTitle == form.FormTitle && i.FormDescription == form.FormDescription).FirstOrDefault();
+
             user.Forms.Add(_mapper.Map<Form>(formListDto));
-            formListDto.appUsers.Add(user);
+            await _userManager.UpdateAsync(user);
+            
+
             
             globalFormListDto.Id = formListDto.Id;
             globalFormListDto.FormTitle = form.FormTitle;
