@@ -12,10 +12,15 @@ namespace GoogleForms.Entities.UserEntities
 {
     public class AppUser: IdentityUser<int> 
     {
+        public AppUser()
+        {
+            Forms = new List<Form>();
+        }
         public string Name { get; set; }
         public string Surname { get; set; }
 
-        public List<Form>? Forms { get; set; }
+        public List<Form> Forms { get; set; }
 
+       
     }
 }

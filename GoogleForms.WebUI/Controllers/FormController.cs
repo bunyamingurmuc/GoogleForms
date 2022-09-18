@@ -57,7 +57,9 @@ namespace GoogleForms.WebUI.Controller2
         {
             var forms = await _formService.GetAllAsync();
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            if (user.Forms!=null)
+
+
+            if (user.Forms != null)
             {
                 return View(new List<FormListDto>());
             }
@@ -86,14 +88,15 @@ namespace GoogleForms.WebUI.Controller2
                 }
                 return View(dto);
             }
-           
+
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            
+
             var form = await _formService.CreateAsync(dto);
             var forms = await _formService.GetAllAsync();
             var formListDto = forms.Where(i => i.FormTitle == form.FormTitle && i.FormDescription == form.FormDescription).FirstOrDefault();
+            user.Forms.Add(_mapper.Map<Form>(formListDto));
             formListDto.appUsers.Add(user);
-            await _formService.UpdateAsync(_mapper.Map<FormUpdateDto>(formListDto));
+            
             globalFormListDto.Id = formListDto.Id;
             globalFormListDto.FormTitle = form.FormTitle;
             globalFormListDto.FormDescription = form.FormDescription;
@@ -200,7 +203,7 @@ namespace GoogleForms.WebUI.Controller2
                 if (checkquestion.QuestionType == Common.Enums.QuestionType.KisaYanit || checkquestion.QuestionType == Common.Enums.QuestionType.Paragraf)
                 {
 
-                    
+
 
 
                     if (dto.UserAnswers != null)
@@ -219,10 +222,10 @@ namespace GoogleForms.WebUI.Controller2
                                 }
                                 return View(dto);
                             }
-                            if (question.IsUnique==true)
+                            if (question.IsUnique == true)
                             {
                                 var answers = await _answerService.GetAllAsync();
-                                var isItUniqueResult =await _answerService.FindIsItUnique(dto.UserAnswers[i].Description,question.Id);
+                                var isItUniqueResult = await _answerService.FindIsItUnique(dto.UserAnswers[i].Description, question.Id);
                                 if (isItUniqueResult == false)
                                 {
                                     ModelState.Clear();
@@ -376,15 +379,15 @@ namespace GoogleForms.WebUI.Controller2
                 {
 
                     worksheet.Cell(1, (i + 1)).Value = quesitons[i].QuestionTitle;
-                    
+
 
 
                     for (int j = 0; j < quesitons[i].Answers.Count; j++)
-                    {    
-                        worksheet.Cell(j+2, (i + 1)).Value = quesitons[i].Answers[j].Description;
+                    {
+                        worksheet.Cell(j + 2, (i + 1)).Value = quesitons[i].Answers[j].Description;
                     }
                 }
-                using (var stream= new MemoryStream())
+                using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
                     var content = stream.ToArray();

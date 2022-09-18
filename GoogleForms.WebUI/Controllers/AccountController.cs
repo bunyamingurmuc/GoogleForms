@@ -38,10 +38,7 @@ namespace GoogleForms.WebUI.Controllers
                 {
                     return RedirectToAction("Index", "form");
                 }
-            }
-            return View();
-        }
-
+            }d
         public async Task<IActionResult> CreateUser()
         {
             return View();
