@@ -42,6 +42,11 @@
                                     <button type="submit" asp-controller="form" asp-action="answercreate" asp-route-id="@question.Id" class="btn btn-success btn-sm">Cevap Ekle</button>
                                 </form>
                             }
+                            @if (question.QuestionType==GoogleForms.Common.Enums.QuestionType.VarliktanYükle)
+                            {
+
+                                <a asp-action="SelectEntity" asp-route-id=@question.Id type="button" class="btn btn-outline-success">Varlığı Seç</a>
+                            }
                         </div>
                     </div>
                 }

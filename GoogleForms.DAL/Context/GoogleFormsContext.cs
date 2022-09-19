@@ -17,7 +17,11 @@ namespace GoogleForms.DAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             modelBuilder.Entity<Form>().Navigation(x => x.Questions).AutoInclude();
+            //modelBuilder.Entity<Form>().Navigation(x => x.appUsers).AutoInclude();
+            
+            modelBuilder.Entity<AppUser>().Navigation(x => x.Forms).AutoInclude();
             modelBuilder.Entity<Answer>().Navigation(x => x.Question).AutoInclude();
             modelBuilder.Entity<Question>().Navigation(x => x.Answers).AutoInclude();
             modelBuilder.Entity<Question>().Navigation(x => x.UserAnswers).AutoInclude();

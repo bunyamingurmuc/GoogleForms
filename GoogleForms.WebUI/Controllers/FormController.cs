@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using FluentValidation;
 using GoogleForms.BLL.Extensions;
 using GoogleForms.BLL.Interfaces;
 using GoogleForms.DTOs;
+using GoogleForms.DTOs.ControllerDtos;
 using GoogleForms.Entities;
 using GoogleForms.Entities.UserEntities;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +15,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Office.Interop.Excel;
+using System.Linq;
+using System.Net;
 using System.Transactions;
 
 namespace GoogleForms.WebUI.Controller2
@@ -55,20 +59,63 @@ namespace GoogleForms.WebUI.Controller2
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var forms = await _formService.GetAllAsync();
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var forms = await _formService.GetQuestionWithAnswersAndUsers();
             
-
-
+            var userforms = _mapper.Map<List<FormListDto>>(user.Forms);
+            var listAdd = new List<FormListDto>();
+           
+            foreach (var form in forms)
+            {
+                foreach (var userform in userforms)
+                {
+                    if (form.Id==userform.Id)
+                    {
+                        listAdd.Add(form);
+                    }
+                }
+            }
             if (user.Forms != null)
             {
-                return View(_mapper.Map<List<FormListDto>>(user.Forms));
+                return View(listAdd);
             }
             return View();
         }
-        public async Task<IActionResult> FormView(FormListDto dto)
+        public async Task<IActionResult> FormView(int id)
         {
+            var dto = await _formService.GetByIdAsync<FormListDto>(id);
             return View(dto);
+        }
+
+        public async Task<IActionResult> SelectEntity(int id,ControllerSelectEntityDto? dto)
+        {
+            
+
+            var forms = await _formService.GetQuestionWithAnswersAndUsers();
+            if (dto.FormId!=0)
+            {
+                var selectedForm = forms.FirstOrDefault(form => form.Id==dto.FormId);
+                dto.questions = selectedForm.Questions.Where(i=>i.QuestionType==Common.Enums.QuestionType.KisaYanit||i.QuestionType==Common.Enums.QuestionType.Paragraf).ToList();
+            }
+            if (dto.QuestionId!=0)
+            {
+               var addingEntityQuestion=await _questionService.GetByIdAsync<QuestionListDto>(dto.QuestionId);
+                foreach (var answer in addingEntityQuestion.Answers)
+                {
+                    await _answerService.CreateAsync(new AnswerCreateDto()
+                    {
+                        QuestionId = dto.mainQuesionId,
+                        Description = answer.Description,
+                    });
+                    addingEntityQuestion.QuestionType=Common.Enums.QuestionType.OnayKutulari;
+                    await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(addingEntityQuestion));
+                    return RedirectToAction("formview", addingEntityQuestion.FormId);
+                }
+            }
+          
+            dto.mainQuesionId = id;
+            dto.forms = forms;
+           return View(dto);
         }
         public async Task<IActionResult> FormCreate()
         {
@@ -95,13 +142,7 @@ namespace GoogleForms.WebUI.Controller2
             dto.appUsers.Add(user);
             var form = await _formService.CreateAsync(dto);
             var forms = await _formService.GetAllAsync();
-            var formListDto = forms.Where(i => i.FormTitle == form.FormTitle && i.FormDescription == form.FormDescription).FirstOrDefault();
-
-            user.Forms.Add(_mapper.Map<Form>(formListDto));
-            await _userManager.UpdateAsync(user);
-            
-
-            
+            var formListDto = forms.Where(i => i.FormTitle == form.FormTitle && i.FormDescription == form.FormDescription).FirstOrDefault();      
             globalFormListDto.Id = formListDto.Id;
             globalFormListDto.FormTitle = form.FormTitle;
             globalFormListDto.FormDescription = form.FormDescription;
@@ -401,8 +442,44 @@ namespace GoogleForms.WebUI.Controller2
                 }
             }
         }
+        public async Task<IActionResult> AuthorizationShare(int id)
+        {
+            var formListDto = await _formService.GetByIdAsync<FormListDto>(id);
+            var dto= new ControllerAddAuthorizeDto()
+            {
+                FormId = id,
+            };
+            return View(dto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AuthorizationShare(ControllerAddAuthorizeDto dto)
+        {
+            var forms = await _formService.GetQuestionWithAnswersAndUsers();
+          var formListDto= forms.FirstOrDefault(i => i.Id == dto.FormId);
+            var formListDto1 = await _formService.GetByIdAsync<FormListDto>(dto.FormId);
+            var UserToBeAdded = await _userManager.FindByNameAsync(dto.Email);
+            if (UserToBeAdded != null)
+            {
+                
+                if (formListDto.appUsers.Select(i=>i.Name).Contains(UserToBeAdded.Name)==true)
+                {
+                    ModelState.AddModelError("", "Bu kullanıyı daha önce eklediniz");
+                    return View(dto);
+                }
 
+                UserToBeAdded.Forms.Add(_mapper.Map<Form>(formListDto));
+               await _userManager.UpdateAsync(UserToBeAdded);
 
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Girdiğiniz Email ile eşleşen kullanıcı bulunamadı");
+                return View(dto);
+            }
+
+          
+        }
     }
 
 

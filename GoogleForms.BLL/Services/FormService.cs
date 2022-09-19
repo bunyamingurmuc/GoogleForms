@@ -41,5 +41,13 @@ namespace GoogleForms.BLL.Services
             return mapped;
 
         }
+
+        public async Task<List<FormListDto>> GetQuestionWithAnswersAndUsers()
+        {
+            var query= await _uow.GetRepository<Form>().GetQuery();
+            var form = query.Include(i => i.appUsers).ToList();
+            var mapped = _mapper.Map<List<FormListDto>>(form);
+            return mapped;
+        }
     }
 }

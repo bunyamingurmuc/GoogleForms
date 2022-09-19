@@ -12,5 +12,6 @@ namespace GoogleForms.Common.Enums
         KisaYanit = 1,
         Paragraf=2,
         OnayKutulari=3,
+        VarliktanYükle=4,
     }
 }

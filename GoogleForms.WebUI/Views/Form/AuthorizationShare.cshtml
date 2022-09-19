@@ -1,0 +1,31 @@
+﻿@model ControllerAddAuthorizeDto
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-action="AuthorizationShare" method="post">
+
+
+    <div style="    position: absolute; top: 34%;left: 38%; border: solid thin green; border-radius:20px; padding: 1.5%;">
+
+        <div class="row">
+            <div class="col-auto">
+                <label for="inputPassword6" class="col-form-label">Kullanıcı E-Postası</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" asp-for="Email" class="form-control">
+                <input type="hidden" asp-for="FormId" value=@Model.FormId />
+            </div>
+
+            <div class="col-auto">
+                <button class="btn btn-success">Yetkilendir</button>
+            </div>
+        </div>
+
+        <div class="text-danger mt-2" asp-validation-summary="ModelOnly">
+        </div>
+
+    </div>
+</form>
+
+

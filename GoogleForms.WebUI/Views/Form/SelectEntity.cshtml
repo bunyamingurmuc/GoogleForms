@@ -1,0 +1,50 @@
+﻿@model ControllerSelectEntityDto
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form asp-action="SelectEntity">
+    <div class="p-5 mt-5" style="border: solid thin red; border-radius:20px" class="mb-3">
+        @if (Model.forms.Count == 0)
+        {
+            <label class="mb-1">Form Yok</label>
+        }
+        else if (Model.forms.Count != 0)
+        {
+            <div class="mt-1">
+                <label class="mb-1">Formu Sçin</label>
+                <select class="form-select" asp-for="@Model.FormId">
+
+                    <option selected>Form Seçiniz</option>
+                    @foreach (var form in Model.forms)
+                    {
+                    <option value=@form.Id> @form.FormTitle</option>
+                        
+                    }
+                    
+                </select>
+            </div>
+        }
+        @if (Model.questions.Count()!=0)
+        {
+            <div class="mt-1">
+                <label class="mb-1">Formu Sçin</label>
+                <select class="form-select" asp-for="@Model.QuestionId">
+
+                    <option selected>Soru Seçiniz</option>
+                    @foreach (var question in Model.questions)
+                    {
+                        <option value=@question.Id> @question.QuestionTitle</option>
+
+                    }
+
+                </select>
+            </div>
+        }
+        <input type="hidden" value=@Model.mainQuesionId asp-for="mainQuesionId" />
+        <button class="btn btn-primary mt-2" type="submit">Gönder</button>
+        
+    </div>
+</form>
