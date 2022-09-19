@@ -100,6 +100,7 @@ namespace GoogleForms.WebUI.Controller2
             if (dto.QuestionId!=0)
             {
                var addingEntityQuestion=await _questionService.GetByIdAsync<QuestionListDto>(dto.QuestionId);
+               var mainquestion = await _questionService.GetByIdAsync<QuestionListDto>(dto.mainQuesionId);
                 foreach (var answer in addingEntityQuestion.Answers)
                 {
                     await _answerService.CreateAsync(new AnswerCreateDto()
@@ -107,10 +108,13 @@ namespace GoogleForms.WebUI.Controller2
                         QuestionId = dto.mainQuesionId,
                         Description = answer.Description,
                     });
-                    addingEntityQuestion.QuestionType=Common.Enums.QuestionType.OnayKutulari;
-                    await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(addingEntityQuestion));
-                    return RedirectToAction("formview", addingEntityQuestion.FormId);
+                    mainquestion.QuestionType=Common.Enums.QuestionType.OnayKutulari;
+                    await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(mainquestion));
                 }
+                
+                var form = await _formService.GetByIdAsync<FormListDto>(mainquestion.FormId);
+
+                return View("FormView",form );
             }
           
             dto.mainQuesionId = id;
