@@ -69,7 +69,36 @@
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].QuestionId" />
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Description" />
                                 <input type="hidden" asp-for="@Model.Questions[i].Answers[j].answerType" />
-                                <input asp-for="Questions[i].Answers[j].IsSelected" /> @Model.Questions[i].Answers[j].Description
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="Questions[i].Answers[j].IsSelected">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        @Model.Questions[i].Answers[j].Description
+                                    </label>
+                                </div>
+
+                                @*<input asp-for="Questions[i].Answers[j].IsSelected" /> @Model.Questions[i].Answers[j].Description*@
+                            }
+                        </div>
+                    }
+                    else if (Model.Questions[i].QuestionType == QuestionType.VarliktanYükle)
+                    {
+                        <div class="form-group" style=" flex-direction: column; flex-direction: column;">
+                            @for (int j = 0; j < Model.Questions[i].Answers.Count(); j++)
+                            {
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Id" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].QuestionId" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Description" />
+                                <input type="hidden" asp-for="@Model.Questions[i].Answers[j].answerType" />
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="Questions[i].Answers[j].IsSelected">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        @Model.Questions[i].Answers[j].Description
+                                    </label>
+                                </div>
+
+                                @*<input asp-for="Questions[i].Answers[j].IsSelected" /> @Model.Questions[i].Answers[j].Description*@
                             }
                         </div>
                     }

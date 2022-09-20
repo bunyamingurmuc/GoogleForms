@@ -89,7 +89,7 @@ namespace GoogleForms.WebUI.Controller2
 
         public async Task<IActionResult> SelectEntity(int id,ControllerSelectEntityDto? dto)
         {
-            
+            var addingEntityQuestion = await _questionService.GetByIdAsync<QuestionListDto>(dto.QuestionId);
 
             var forms = await _formService.GetQuestionWithAnswersAndUsers();
             if (dto.FormId!=0)
@@ -99,8 +99,11 @@ namespace GoogleForms.WebUI.Controller2
             }
             if (dto.QuestionId!=0)
             {
-               var addingEntityQuestion=await _questionService.GetByIdAsync<QuestionListDto>(dto.QuestionId);
+             
+                
                var mainquestion = await _questionService.GetByIdAsync<QuestionListDto>(dto.mainQuesionId);
+                mainquestion.RelatedQuestionId = dto.QuestionId;
+              var test=  await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(addingEntityQuestion));
                 foreach (var answer in addingEntityQuestion.Answers)
                 {
                     await _answerService.CreateAsync(new AnswerCreateDto()
@@ -108,7 +111,7 @@ namespace GoogleForms.WebUI.Controller2
                         QuestionId = dto.mainQuesionId,
                         Description = answer.Description,
                     });
-                    mainquestion.QuestionType=Common.Enums.QuestionType.OnayKutulari;
+                    
                     await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(mainquestion));
                 }
                 
@@ -126,6 +129,11 @@ namespace GoogleForms.WebUI.Controller2
             return View();
         }
 
+        public async Task<IActionResult> FormDelete(int id)
+        {
+            await _formService.RemoveAsync(id);
+            return RedirectToAction("Index");
+        }
         [HttpPost]
         public async Task<IActionResult> FormCreate(FormCreateDto dto)
         {
@@ -215,6 +223,18 @@ namespace GoogleForms.WebUI.Controller2
         public async Task<IActionResult> JoinForm(int id)
         {
             var formListDto = await _formService.GetByIdAsync<FormListDto>(id);
+
+
+            var varlikQuestions = formListDto.Questions.Where(i => i.QuestionType == Common.Enums.QuestionType.VarliktanYükle).ToList();
+            
+            foreach (var varlıkquestion in varlikQuestions)
+            {
+                var varlikparent =await _questionService.GetByIdAsync<QuestionListDto>(varlıkquestion.RelatedQuestionId.Value);
+                if (varlıkquestion.Answers.Count()!=varlikparent.Answers.Count())
+                {
+
+                }
+            }
             var allAnswers = await _answerService.GetAllAsync();
             var answers = allAnswers.Where(i => i.Question.FormId == id).ToList();
             JoinFormDto dto = new JoinFormDto();
@@ -247,21 +267,22 @@ namespace GoogleForms.WebUI.Controller2
             var q = await _questionService.GetByIdAsync<QuestionListDto>(dto.Questions[0].Id);
             var formListDto = await _formService.GetByIdAsync<FormListDto>(q.FormId);
             var questions = formListDto.Questions;
+            var allquestions=await _questionService.GetAllAsync();
 
-            foreach (var checkquestion in dto.Questions)
+            for (int j = 0; j < dto.Questions.Count(); j++) 
             {
-                if (checkquestion.QuestionType == Common.Enums.QuestionType.KisaYanit || checkquestion.QuestionType == Common.Enums.QuestionType.Paragraf)
+                if (dto.Questions[j].QuestionType == Common.Enums.QuestionType.KisaYanit || dto.Questions[j].QuestionType == Common.Enums.QuestionType.Paragraf)
                 {
 
 
-
+                    
 
                     if (dto.UserAnswers != null)
                     {
-                        for (int i = 0; i < dto.UserAnswers.Count(); i++)
-                        {
-                            var question = await _questionService.GetByIdAsync<QuestionListDto>(dto.UserAnswers[i].QuestionId);
-                            var bak = dto.UserAnswers[i];
+                       
+                        
+                            var question = await _questionService.GetByIdAsync<QuestionListDto>(dto.UserAnswers[j].QuestionId);
+                            var bak = dto.UserAnswers[j];
                             var result = _uacreateDtoValidator.Validate(bak);
                             if (!result.IsValid)
                             {
@@ -275,7 +296,7 @@ namespace GoogleForms.WebUI.Controller2
                             if (question.IsUnique == true)
                             {
                                 var answers = await _answerService.GetAllAsync();
-                                var isItUniqueResult = await _answerService.FindIsItUnique(dto.UserAnswers[i].Description, question.Id);
+                                var isItUniqueResult = await _answerService.FindIsItUnique(dto.UserAnswers[j].Description, question.Id);
                                 if (isItUniqueResult == false)
                                 {
                                     ModelState.Clear();
@@ -283,18 +304,31 @@ namespace GoogleForms.WebUI.Controller2
                                     return View(dto);
                                 }
                             }
-                            var findedAnswerType = await _answerService.FindAnswerType(dto.UserAnswers[i].Description);
+                            var findedAnswerType = await _answerService.FindAnswerType(dto.UserAnswers[j].Description);
                             var answerCreateDto = new AnswerCreateDto()
                             {
                                 answerType = findedAnswerType,
-                                Description = dto.UserAnswers[i].Description,
-                                QuestionId = dto.UserAnswers[i].QuestionId,
+                                Description = dto.UserAnswers[j].Description,
+                                QuestionId = dto.UserAnswers[j].QuestionId,
                                 IsItUserAnswer = true,
                             };
+                        var relatedquesitons = allquestions.Where(i => i.RelatedQuestionId == dto.Questions[j].Id).ToList();
+                        if (relatedquesitons.Count() != 0)
+                        {
+                            foreach (var relatedquestion in relatedquesitons)
+                            {
+                                await _answerService.CreateAsync(new AnswerCreateDto
+                                {
+                                    QuestionId = relatedquestion.Id,
+                                    Description = dto.UserAnswers[j].Description
 
+                                });
+                            };
+                        }
+                       
                             var CREATED = await _answerService.CreateAsync(answerCreateDto);
 
-                        }
+                        
                     }
                 }
                 else

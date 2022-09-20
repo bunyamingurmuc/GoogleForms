@@ -17,6 +17,8 @@ namespace GoogleForms.Entities
         public List<Answer> Answers { get; set; }
         public List<UserAnswer> UserAnswers { get; set; }
 
+        public int? RelatedQuestionId { get; set; }
+
         public double? AverageAnswersValue { get; set; }
         public double? AverageOfAllAnswers { get; set; }
         public double? MinAnsweresValue { get; set; }

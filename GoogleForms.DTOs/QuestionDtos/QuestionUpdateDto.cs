@@ -18,6 +18,7 @@ namespace GoogleForms.DTOs
         public List<AnswerUpdateDto>? Answers { get; set; }
         public List<AnswerListDto>? UserAnswers { get; set; }
 
+        public int? RelatedQuestionId { get; set; }
 
 
         public double? AverageAnswersValue { get; set; }

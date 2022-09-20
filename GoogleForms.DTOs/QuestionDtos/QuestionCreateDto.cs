@@ -21,6 +21,7 @@ namespace GoogleForms.DTOs
         public double? MaxAnsweresValue { get; set; }
         public double? CorrectAnswerAverage { get; set; }
         public double? WrongAnswerAverage { get; set; }
+        public int? RelatedQuestionId { get; set; }
 
         public int NumberOfAnswers { get; set; } = 0;
         public double? MinChoiceAnsweresValue { get; set; }
