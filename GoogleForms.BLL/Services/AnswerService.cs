@@ -66,12 +66,13 @@ namespace GoogleForms.BLL.Services
 
         }
 
-        public AnswerCreateDto findOperationAnswer(QuestionListDto dto1, QuestionListDto dto2, int mainQuestionId, OperationType operationType)
+        public async Task<AnswerCreateDto>  findOperationAnswer(QuestionListDto dto1, QuestionListDto dto2, int mainQuestionId, OperationType operationType)
         {
             var value1string = dto1.Answers.FirstOrDefault(i => i.IsSelected == true).Description;
             var value2string = dto2.Answers.FirstOrDefault(i => i.IsSelected == true).Description;
             var value1 = int.Parse(value1string);
             var value2 = int.Parse(value2string);
+
             if (operationType == OperationType.Topla)
             {
                 return new AnswerCreateDto()
@@ -79,8 +80,6 @@ namespace GoogleForms.BLL.Services
                     answerType = AnswerType.number,
                     Description = (value1 + value2).ToString(),
                     QuestionId = mainQuestionId,
-
-
                 };
             }
             else if (operationType == OperationType.Cikar)
@@ -90,19 +89,26 @@ namespace GoogleForms.BLL.Services
                     answerType = AnswerType.number,
                     Description = (value1 - value2).ToString(),
                     QuestionId = mainQuestionId,
-
-
                 };
             }
             else if (operationType == OperationType.Carp)
             {
-
+                return new AnswerCreateDto()
+                {
+                    answerType = AnswerType.number,
+                    Description = (value1 * value2).ToString(),
+                    QuestionId = mainQuestionId,
+                };
             }
-            else if (operationType == OperationType.Bol)
+            else 
             {
-
+                return new AnswerCreateDto()
+                {
+                    answerType = AnswerType.number,
+                    Description = (value1 / value2).ToString(),
+                    QuestionId = mainQuestionId,
+                };
             }
-
         }
     }
 }

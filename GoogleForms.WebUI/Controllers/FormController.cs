@@ -18,6 +18,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Linq;
 using System.Net;
 using System.Transactions;
+using GoogleForms.Common.Enums;
 
 namespace GoogleForms.WebUI.Controller2
 {
@@ -110,7 +111,7 @@ namespace GoogleForms.WebUI.Controller2
                     {
                         QuestionId = dto.mainQuesionId,
                         Description = answer.Description,
-                        answerType=await _answerService.FindAnswerType(answer.Description)
+                        answerType=await _answerService.FindAnswerType(answer.Description),
                     });
                     
                     await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(mainquestion));
@@ -518,8 +519,14 @@ namespace GoogleForms.WebUI.Controller2
 
           
         }
-   
-    
+
+        public async Task<IActionResult> CreateOperation(int? id, FormListDto? formListDto)
+        {
+            var quesitons =  formListDto.Questions.Where(i=>i.QuestionType==QuestionType.KisaYanit&&i.QuestionType==QuestionType.Paragraf).ToList();
+            
+            
+            return View();
+        }
     }
 
 

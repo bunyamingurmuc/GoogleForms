@@ -1,0 +1,15 @@
+﻿@model QuestionCreateDto
+@{
+	ViewData["Title"] = "QuestionCreate";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<select class="form-select" asp-for="@Model.FormId">
+
+	<option selected>Form Seçiniz</option>
+	@foreach (var form in Model.forms)
+	{
+		<option value=@form.Id> @form.FormTitle</option>
+                        
+	}
+                    
+</select>
