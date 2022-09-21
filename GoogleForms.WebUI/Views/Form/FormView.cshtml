@@ -10,9 +10,9 @@
 
 <div class="m-4">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body">  1
             <h5 class="card-title">@Model.FormTitle</h5>
-            <p class="card-text">@Model.FormDescription</p>
+            <p class="card-text">@Model.FormDescription</p> 
 
             <form asp-controller="form" asp-action="questioncreate" method="get">
                 <input type="hidden" value="@Model.Id" />
@@ -20,7 +20,7 @@
             </form>
 
 
-
+             
             @if (Model.Questions != null)
             {
                 @foreach (var question in Model.Questions)
@@ -46,6 +46,11 @@
                             {
 
                                 <a asp-action="SelectEntity" asp-route-id=@question.Id type="button" class="btn btn-outline-success">Varlığı Seç</a>
+                            }
+                            @if (question.QuestionType == GoogleForms.Common.Enums.QuestionType.Islem)
+                            {
+
+                                <a asp-action="CreateOperation" asp-route-id=@question.Id type="button" class="btn btn-outline-success">İşlem Oluştur</a>
                             }
                         </div>
                     </div>

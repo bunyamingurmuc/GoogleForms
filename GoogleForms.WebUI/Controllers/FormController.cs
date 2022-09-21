@@ -110,6 +110,7 @@ namespace GoogleForms.WebUI.Controller2
                     {
                         QuestionId = dto.mainQuesionId,
                         Description = answer.Description,
+                        answerType=await _answerService.FindAnswerType(answer.Description)
                     });
                     
                     await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(mainquestion));
@@ -160,7 +161,6 @@ namespace GoogleForms.WebUI.Controller2
             globalFormListDto.FormDescription = form.FormDescription;
             return RedirectToAction("FormView", globalFormListDto);
         }
-
 
         public async Task<IActionResult> QuestionCreate(int id)
         {
@@ -518,6 +518,8 @@ namespace GoogleForms.WebUI.Controller2
 
           
         }
+   
+    
     }
 
 

@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace GoogleForms.Common.Enums
 {
-    public enum QuestionType
+    public enum OperationType
     {
-        CoktanSecmeli=0,
-        KisaYanit = 1,
-        Paragraf=2,
-        OnayKutulari=3,
-        VarliktanYükle=4,
-        Islem=5,
+        Topla,
+        Cikar,
+        Carp,
+        Bol
     }
 }

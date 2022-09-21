@@ -16,7 +16,7 @@ namespace GoogleForms.BLL.Services
         public readonly IValidator<AnswerCreateDto> _createDtoValidator;
         public readonly IValidator<AnswerUpdateDto> _updateDtoValidator;
 
-        public AnswerService(IUOW uow, IMapper mapper, IValidator<AnswerCreateDto> createDtoValidator, IValidator<AnswerUpdateDto> updateDtoValidator):base(mapper,createDtoValidator,updateDtoValidator, uow)
+        public AnswerService(IUOW uow, IMapper mapper, IValidator<AnswerCreateDto> createDtoValidator, IValidator<AnswerUpdateDto> updateDtoValidator) : base(mapper, createDtoValidator, updateDtoValidator, uow)
         {
             _uow = uow;
             _mapper = mapper;
@@ -24,46 +24,85 @@ namespace GoogleForms.BLL.Services
             _updateDtoValidator = updateDtoValidator;
         }
 
-       
+
 
 
         public async Task<AnswerType> FindAnswerType(string description)
         {
-          
-            
+
+
             var answerDscription = description;
             int n;
             bool isNumeric = int.TryParse(answerDscription, out n);
-            if (isNumeric==true)
+            if (isNumeric == true)
             {
-               return Common.Enums.AnswerType.number;
+                return Common.Enums.AnswerType.number;
             }
             else
             {
-               return Common.Enums.AnswerType.text;
+                return Common.Enums.AnswerType.text;
             }
 
 
 
         }
 
-        public  async Task<bool> FindIsItUnique(string description, int questionId)
+        public async Task<bool> FindIsItUnique(string description, int questionId)
         {
             var allAnswers = await _uow.GetRepository<Answer>().GetAllAsync();
-            var answers= allAnswers.Where(a => a.QuestionId == questionId).ToList();
+            var answers = allAnswers.Where(a => a.QuestionId == questionId).ToList();
             var isItUnique = true;
-            if (answers!=null)
+            if (answers != null)
             {
                 foreach (var answer in answers)
                 {
-                    if (answer.Description.Trim()==description.Trim())
+                    if (answer.Description.Trim() == description.Trim())
                     {
-                        isItUnique=false;
+                        isItUnique = false;
                     }
                 }
             }
             return isItUnique;
-            
+
+        }
+
+        public AnswerCreateDto findOperationAnswer(QuestionListDto dto1, QuestionListDto dto2, int mainQuestionId, OperationType operationType)
+        {
+            var value1string = dto1.Answers.FirstOrDefault(i => i.IsSelected == true).Description;
+            var value2string = dto2.Answers.FirstOrDefault(i => i.IsSelected == true).Description;
+            var value1 = int.Parse(value1string);
+            var value2 = int.Parse(value2string);
+            if (operationType == OperationType.Topla)
+            {
+                return new AnswerCreateDto()
+                {
+                    answerType = AnswerType.number,
+                    Description = (value1 + value2).ToString(),
+                    QuestionId = mainQuestionId,
+
+
+                };
+            }
+            else if (operationType == OperationType.Cikar)
+            {
+                return new AnswerCreateDto()
+                {
+                    answerType = AnswerType.number,
+                    Description = (value1 - value2).ToString(),
+                    QuestionId = mainQuestionId,
+
+
+                };
+            }
+            else if (operationType == OperationType.Carp)
+            {
+
+            }
+            else if (operationType == OperationType.Bol)
+            {
+
+            }
+
         }
     }
 }
