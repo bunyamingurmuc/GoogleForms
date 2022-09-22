@@ -62,15 +62,15 @@ namespace GoogleForms.WebUI.Controller2
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var forms = await _formService.GetQuestionWithAnswersAndUsers();
-            
+
             var userforms = _mapper.Map<List<FormListDto>>(user.Forms);
             var listAdd = new List<FormListDto>();
-           
+
             foreach (var form in forms)
             {
                 foreach (var userform in userforms)
                 {
-                    if (form.Id==userform.Id)
+                    if (form.Id == userform.Id)
                     {
                         listAdd.Add(form);
                     }
@@ -88,43 +88,43 @@ namespace GoogleForms.WebUI.Controller2
             return View(dto);
         }
 
-        public async Task<IActionResult> SelectEntity(int id,ControllerSelectEntityDto? dto)
+        public async Task<IActionResult> SelectEntity(int id, ControllerSelectEntityDto? dto)
         {
             var addingEntityQuestion = await _questionService.GetByIdAsync<QuestionListDto>(dto.QuestionId);
 
             var forms = await _formService.GetQuestionWithAnswersAndUsers();
-            if (dto.FormId!=0)
+            if (dto.FormId != 0)
             {
-                var selectedForm = forms.FirstOrDefault(form => form.Id==dto.FormId);
-                dto.questions = selectedForm.Questions.Where(i=>i.QuestionType==Common.Enums.QuestionType.KisaYanit||i.QuestionType==Common.Enums.QuestionType.Paragraf).ToList();
+                var selectedForm = forms.FirstOrDefault(form => form.Id == dto.FormId);
+                dto.questions = selectedForm.Questions.Where(i => i.QuestionType == Common.Enums.QuestionType.KisaYanit || i.QuestionType == Common.Enums.QuestionType.Paragraf).ToList();
             }
-            if (dto.QuestionId!=0)
+            if (dto.QuestionId != 0)
             {
-             
-                
-               var mainquestion = await _questionService.GetByIdAsync<QuestionListDto>(dto.mainQuesionId);
+
+
+                var mainquestion = await _questionService.GetByIdAsync<QuestionListDto>(dto.mainQuesionId);
                 mainquestion.RelatedQuestionId = dto.QuestionId;
-              var test=  await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(addingEntityQuestion));
+                var test = await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(addingEntityQuestion));
                 foreach (var answer in addingEntityQuestion.Answers)
                 {
                     await _answerService.CreateAsync(new AnswerCreateDto()
                     {
                         QuestionId = dto.mainQuesionId,
                         Description = answer.Description,
-                        answerType=await _answerService.FindAnswerType(answer.Description),
+                        answerType = await _answerService.FindAnswerType(answer.Description),
                     });
-                    
+
                     await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(mainquestion));
                 }
-                
+
                 var form = await _formService.GetByIdAsync<FormListDto>(mainquestion.FormId);
 
-                return View("FormView",form );
+                return View("FormView", form);
             }
-          
+
             dto.mainQuesionId = id;
             dto.forms = forms;
-           return View(dto);
+            return View(dto);
         }
         public async Task<IActionResult> FormCreate()
         {
@@ -152,11 +152,11 @@ namespace GoogleForms.WebUI.Controller2
             }
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            
+
             dto.appUsers.Add(user);
             var form = await _formService.CreateAsync(dto);
             var forms = await _formService.GetAllAsync();
-            var formListDto = forms.Where(i => i.FormTitle == form.FormTitle && i.FormDescription == form.FormDescription).FirstOrDefault();      
+            var formListDto = forms.Where(i => i.FormTitle == form.FormTitle && i.FormDescription == form.FormDescription).FirstOrDefault();
             globalFormListDto.Id = formListDto.Id;
             globalFormListDto.FormTitle = form.FormTitle;
             globalFormListDto.FormDescription = form.FormDescription;
@@ -193,6 +193,17 @@ namespace GoogleForms.WebUI.Controller2
 
             return View("FormView", formListDto);
         }
+
+        public async Task<IActionResult> QuestionDelete(int id)
+        {
+                var question=await _questionService.GetByIdAsync<QuestionListDto>(id);
+            
+            await _questionService.RemoveAsync(id);
+            var formListDto = await _formService.GetByIdAsync<FormListDto>(question.FormId);
+
+            return View("FormView", formListDto);
+        }
+
         public async Task<IActionResult> AnswerCreate(int id)
         {
 
@@ -227,11 +238,11 @@ namespace GoogleForms.WebUI.Controller2
 
 
             var varlikQuestions = formListDto.Questions.Where(i => i.QuestionType == Common.Enums.QuestionType.VarliktanYükle).ToList();
-            
+
             foreach (var varlıkquestion in varlikQuestions)
             {
-                var varlikparent =await _questionService.GetByIdAsync<QuestionListDto>(varlıkquestion.RelatedQuestionId.Value);
-                if (varlıkquestion.Answers.Count()!=varlikparent.Answers.Count())
+                var varlikparent = await _questionService.GetByIdAsync<QuestionListDto>(varlıkquestion.RelatedQuestionId.Value);
+                if (varlıkquestion.Answers.Count() != varlikparent.Answers.Count())
                 {
 
                 }
@@ -268,52 +279,53 @@ namespace GoogleForms.WebUI.Controller2
             var q = await _questionService.GetByIdAsync<QuestionListDto>(dto.Questions[0].Id);
             var formListDto = await _formService.GetByIdAsync<FormListDto>(q.FormId);
             var questions = formListDto.Questions;
-            var allquestions=await _questionService.GetAllAsync();
+            var allquestions = await _questionService.GetAllAsync();
 
-            for (int j = 0; j < dto.Questions.Count(); j++) 
+            for (int j = 0; j < dto.Questions.Count(); j++)
             {
                 if (dto.Questions[j].QuestionType == Common.Enums.QuestionType.KisaYanit || dto.Questions[j].QuestionType == Common.Enums.QuestionType.Paragraf)
                 {
 
 
-                    
+
 
                     if (dto.UserAnswers != null)
                     {
-                       
-                        
-                            var question = await _questionService.GetByIdAsync<QuestionListDto>(dto.UserAnswers[j].QuestionId);
-                            var bak = dto.UserAnswers[j];
-                            var result = _uacreateDtoValidator.Validate(bak);
-                            if (!result.IsValid)
+
+
+                        var question = await _questionService.GetByIdAsync<QuestionListDto>(dto.UserAnswers[j].QuestionId);
+                        var bak = dto.UserAnswers[j];
+                        var result = _uacreateDtoValidator.Validate(bak);
+                        if (!result.IsValid)
+                        {
+                            ModelState.Clear();
+                            foreach (var error in result.ConvertToCustomValidationError())
+                            {
+                                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                            }
+                            return View(dto);
+                        }
+                        if (question.IsUnique == true)
+                        {
+                            var answers = await _answerService.GetAllAsync();
+                            var isItUniqueResult = await _answerService.FindIsItUnique(dto.UserAnswers[j].Description, question.Id);
+                            if (isItUniqueResult == false)
                             {
                                 ModelState.Clear();
-                                foreach (var error in result.ConvertToCustomValidationError())
-                                {
-                                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-                                }
+                                ModelState.AddModelError("", "Bu cevap daha önce girildi");
                                 return View(dto);
                             }
-                            if (question.IsUnique == true)
-                            {
-                                var answers = await _answerService.GetAllAsync();
-                                var isItUniqueResult = await _answerService.FindIsItUnique(dto.UserAnswers[j].Description, question.Id);
-                                if (isItUniqueResult == false)
-                                {
-                                    ModelState.Clear();
-                                    ModelState.AddModelError("", "Bu cevap daha önce girildi");
-                                    return View(dto);
-                                }
-                            }
-                            var findedAnswerType = await _answerService.FindAnswerType(dto.UserAnswers[j].Description);
-                            var answerCreateDto = new AnswerCreateDto()
-                            {
-                                answerType = findedAnswerType,
-                                Description = dto.UserAnswers[j].Description,
-                                QuestionId = dto.UserAnswers[j].QuestionId,
-                                IsItUserAnswer = true,
-                            };
+                        }
+                        var findedAnswerType = await _answerService.FindAnswerType(dto.UserAnswers[j].Description);
+                        var answerCreateDto = new AnswerCreateDto()
+                        {
+                            answerType = findedAnswerType,
+                            Description = dto.UserAnswers[j].Description,
+                            QuestionId = dto.UserAnswers[j].QuestionId,
+                            IsItUserAnswer = true,
+                        };
                         var relatedquesitons = allquestions.Where(i => i.RelatedQuestionId == dto.Questions[j].Id).ToList();
+
                         if (relatedquesitons.Count() != 0)
                         {
                             foreach (var relatedquestion in relatedquesitons)
@@ -326,12 +338,13 @@ namespace GoogleForms.WebUI.Controller2
                                 });
                             };
                         }
-                       
-                            var CREATED = await _answerService.CreateAsync(answerCreateDto);
 
-                        
+                        var CREATED = await _answerService.CreateAsync(answerCreateDto);
+
+
                     }
                 }
+               
                 else
                 {
 
@@ -484,7 +497,7 @@ namespace GoogleForms.WebUI.Controller2
         public async Task<IActionResult> AuthorizationShare(int id)
         {
             var formListDto = await _formService.GetByIdAsync<FormListDto>(id);
-            var dto= new ControllerAddAuthorizeDto()
+            var dto = new ControllerAddAuthorizeDto()
             {
                 FormId = id,
             };
@@ -494,20 +507,20 @@ namespace GoogleForms.WebUI.Controller2
         public async Task<IActionResult> AuthorizationShare(ControllerAddAuthorizeDto dto)
         {
             var forms = await _formService.GetQuestionWithAnswersAndUsers();
-          var formListDto= forms.FirstOrDefault(i => i.Id == dto.FormId);
+            var formListDto = forms.FirstOrDefault(i => i.Id == dto.FormId);
             var formListDto1 = await _formService.GetByIdAsync<FormListDto>(dto.FormId);
             var UserToBeAdded = await _userManager.FindByNameAsync(dto.Email);
             if (UserToBeAdded != null)
             {
-                
-                if (formListDto.appUsers.Select(i=>i.Name).Contains(UserToBeAdded.Name)==true)
+
+                if (formListDto.appUsers.Select(i => i.Name).Contains(UserToBeAdded.Name) == true)
                 {
                     ModelState.AddModelError("", "Bu kullanıyı daha önce eklediniz");
                     return View(dto);
                 }
 
                 UserToBeAdded.Forms.Add(_mapper.Map<Form>(formListDto));
-               await _userManager.UpdateAsync(UserToBeAdded);
+                await _userManager.UpdateAsync(UserToBeAdded);
 
                 return RedirectToAction("Index");
             }
@@ -517,16 +530,34 @@ namespace GoogleForms.WebUI.Controller2
                 return View(dto);
             }
 
-          
+
         }
 
-        public async Task<IActionResult> CreateOperation(int? id, FormListDto? formListDto)
+        
+        public async Task<IActionResult> CreateOperation(int? id, ControllerCreateOperationDto? createOperationDto)
         {
-            var quesitons =  formListDto.Questions.Where(i=>i.QuestionType==QuestionType.KisaYanit&&i.QuestionType==QuestionType.Paragraf).ToList();
-            
-            
-            return View();
+            var mainQuestion = await _questionService.GetByIdAsync<QuestionListDto>(id.Value);
+            var formListDto = await _formService.GetByIdAsync<FormListDto>(mainQuestion.FormId);
+           
+
+            var quesitons = formListDto.Questions.Where(i => i.QuestionType == QuestionType.KisaYanit || i.QuestionType == QuestionType.Paragraf).ToList();
+            createOperationDto.questionListDtos = quesitons;
+            if (id != null)
+            {
+                createOperationDto.MainQuesitonId = id.Value;
+            }
+
+            if (createOperationDto.SelectedQuestionId1 != 0 && createOperationDto.SelectedQuestionId1 != 0 && createOperationDto.operandType != 0)
+            {
+                var question1 = await _questionService.GetByIdAsync<QuestionListDto>(createOperationDto.SelectedQuestionId1);
+                var question2 = await _questionService.GetByIdAsync<QuestionListDto>(createOperationDto.SelectedQuestionId2);
+            }
+
+            return View(createOperationDto);
         }
+
+
+        
     }
 
 

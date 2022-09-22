@@ -29,6 +29,7 @@
                     <div class="card m-3">
                         <div class="card-body">
                             <h5 class="card-title">@question.QuestionTitle -@question.Id</h5>
+                            <a class="btn btn-danger btn-sm mb-1" asp-action="QuestionDelete" asp-route-id=@question.Id>Soruyu Sil</a>
                             @foreach (var answer in question.Answers.Where(i=>i.IsItUserAnswer==false))
                             {
                                 <div >

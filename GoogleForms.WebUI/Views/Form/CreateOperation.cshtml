@@ -1,0 +1,61 @@
+﻿@model ControllerCreateOperationDto
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Model.questionListDtos==null)
+{
+
+}
+
+@if (Model.questionListDtos!=null)
+{
+    <form method="post" asp-action="createoperation">
+        <div class="row" style="display: flex;
+    justify-content: start;
+    align-items: end;">
+
+            <div class="m-1" style=" width: 30%;">
+                <label class="mb-1">Soruyu Seçiniz</label>
+                <select class="form-select" asp-for="@Model.SelectedQuestionId1">
+
+                    <option selected>Soru Seçiniz</option>
+                    @foreach (var question in Model.questionListDtos)
+                    {
+                        <option value=@question.Id> @question.QuestionTitle</option>
+
+                    }
+
+                </select>
+            </div>
+
+            <div class="m-1" style=" width: 30%;">
+                <label class="mb-1">Soruyu Seçiniz</label>
+                <select class="form-select" asp-for="@Model.SelectedQuestionId2">
+
+                    <option selected>Soru Seçiniz</option>
+                    @foreach (var question in Model.questionListDtos)
+                    {
+                        <option value=@question.Id> @question.QuestionTitle</option>
+
+                    }
+
+                </select>
+            </div>
+
+            <div class="m-1" style=" width: 30%;">
+                <select class="form-select" asp-for="@Model.operandType">
+
+                    <option selected>İşlemi Seçiniz</option>
+                    <option value="1">Topla</option>
+                    <option value="2">Çıkar</option>
+                    <option value="3">Çarp</option>
+                    <option value="4">Böl</option>
+
+                </select>
+            </div>
+
+        </div>
+        <button class="btn btn-primary mt-2" type="submit">Gönder</button>
+    </form>
+}

@@ -8,9 +8,9 @@ namespace GoogleForms.Common.Enums
 {
     public enum OperationType
     {
-        Topla,
-        Cikar,
-        Carp,
-        Bol
+        Topla=1,
+        Cikar=2,
+        Carp=3,
+        Bol=4,
     }
 }
