@@ -14,7 +14,9 @@ namespace GoogleForms.BLL.Interfaces
     {
         Task<AnswerType> FindAnswerType(string description);
         Task<bool> FindIsItUnique(string description, int questionId);
-        //Task<bool> findOperationAnswer(QuestionListDto dto1, QuestionListDto dto2, OperationType operationType);
+
+        Task<AnswerCreateDto> findOperationAnswer(string value11, string value22, int mainQuestionId,
+            OperationType operationType);
 
     }
 }

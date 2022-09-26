@@ -31,7 +31,9 @@ namespace GoogleForms.Entities
         public double? MaxChoiceAnsweresValue { get; set; }
         public bool IsAnswered { get; set; }
 
-
+        public int? OpertionQuestion1Id { get; set; }
+        public int? OpertionQuestion2Id { get; set; }
+        public OperationType? OperationType { get; set; }
     }
  
 }

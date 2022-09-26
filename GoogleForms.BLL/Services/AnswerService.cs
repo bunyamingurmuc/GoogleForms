@@ -66,12 +66,11 @@ namespace GoogleForms.BLL.Services
 
         }
 
-        public async Task<AnswerCreateDto>  findOperationAnswer(QuestionListDto dto1, QuestionListDto dto2, int mainQuestionId, OperationType operationType)
+        public async Task<AnswerCreateDto> findOperationAnswer(string value11, string value22, int mainQuestionId, OperationType operationType)
         {
-            var value1string = dto1.Answers.FirstOrDefault(i => i.IsSelected == true).Description;
-            var value2string = dto2.Answers.FirstOrDefault(i => i.IsSelected == true).Description;
-            var value1 = int.Parse(value1string);
-            var value2 = int.Parse(value2string);
+
+            var value1 = int.Parse(value11);
+            var value2 = int.Parse(value22);
 
             if (operationType == OperationType.Topla)
             {
@@ -82,7 +81,7 @@ namespace GoogleForms.BLL.Services
                     QuestionId = mainQuestionId,
                 };
             }
-            else if (operationType == OperationType.Cikar)
+            if (operationType == OperationType.Cikar)
             {
                 return new AnswerCreateDto()
                 {
@@ -91,7 +90,8 @@ namespace GoogleForms.BLL.Services
                     QuestionId = mainQuestionId,
                 };
             }
-            else if (operationType == OperationType.Carp)
+
+            if (operationType == OperationType.Carp)
             {
                 return new AnswerCreateDto()
                 {
@@ -100,7 +100,7 @@ namespace GoogleForms.BLL.Services
                     QuestionId = mainQuestionId,
                 };
             }
-            else 
+            if (operationType == OperationType.Bol)
             {
                 return new AnswerCreateDto()
                 {
@@ -108,6 +108,10 @@ namespace GoogleForms.BLL.Services
                     Description = (value1 / value2).ToString(),
                     QuestionId = mainQuestionId,
                 };
+            }
+            else
+            {
+                return new AnswerCreateDto();
             }
         }
     }

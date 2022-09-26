@@ -50,8 +50,15 @@
                             }
                             @if (question.QuestionType == GoogleForms.Common.Enums.QuestionType.Islem)
                             {
-
-                                <a asp-action="CreateOperation" asp-route-id=@question.Id type="button" class="btn btn-outline-success">İşlem Oluştur</a>
+                                @if (question.OperationType!=null)
+                                {
+	                                <h5>İşlem ataması yapıldı<span class="badge bg-secondary">@question.OperationType</span></h5>
+                                }
+                                else
+                                {
+	                                <a asp-action="CreateOperation" asp-route-id=@question.Id type="button" class="btn btn-outline-success">İşlem Oluştur</a>
+                                }
+                               
                             }
                         </div>
                     </div>

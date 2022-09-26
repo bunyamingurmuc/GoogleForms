@@ -19,6 +19,7 @@ using System.Linq;
 using System.Net;
 using System.Transactions;
 using GoogleForms.Common.Enums;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace GoogleForms.WebUI.Controller2
 {
@@ -34,6 +35,7 @@ namespace GoogleForms.WebUI.Controller2
         private readonly IValidator<UserAnswerCreateDto> _uacreateDtoValidator;
         public FormListDto globalFormListDto = new FormListDto();
         public readonly IMapper _mapper;
+        
         //  public int formGlobalId;
 
         public FormController(IFormService formService, IQuestionService questionService, IAnswerService answerService, IValidator<FormCreateDto> fcreateDtoValidator, IValidator<QuestionCreateDto> qcreateDtoValidator, IValidator<AnswerCreateDto> acreateDtoValidator, IMapper mapper, IValidator<UserAnswerCreateDto> uacreateDtoValidator = null, UserManager<AppUser> userManager = null)
@@ -133,8 +135,10 @@ namespace GoogleForms.WebUI.Controller2
 
         public async Task<IActionResult> FormDelete(int id)
         {
+
             await _formService.RemoveAsync(id);
-            return RedirectToAction("Index");
+            var forms=await _formService.GetAllAsync();
+            return View("Index",forms);
         }
         [HttpPost]
         public async Task<IActionResult> FormCreate(FormCreateDto dto)
@@ -276,6 +280,7 @@ namespace GoogleForms.WebUI.Controller2
         [HttpPost]
         public async Task<IActionResult> JoinForm(JoinFormDto dto)
         {
+            
             var q = await _questionService.GetByIdAsync<QuestionListDto>(dto.Questions[0].Id);
             var formListDto = await _formService.GetByIdAsync<FormListDto>(q.FormId);
             var questions = formListDto.Questions;
@@ -345,7 +350,31 @@ namespace GoogleForms.WebUI.Controller2
                     }
                 }
                
-                else
+                else if (dto.Questions[j].QuestionType == Common.Enums.QuestionType.Islem)
+                {
+                    var questionTemp = dto.Questions[j];
+                    var question = await _questionService.GetByIdAsync<QuestionListDto>(questionTemp.Id);
+                    var value1 = dto.UserAnswers.FirstOrDefault(i => i.QuestionId == question.OpertionQuestion1Id)
+                        .Description;
+                    var value2 = dto.UserAnswers.FirstOrDefault(i => i.QuestionId == question.OpertionQuestion2Id)
+                        .Description;
+                    var value1type =await _answerService.FindAnswerType(value1);
+                    var value2type =await _answerService.FindAnswerType(value2);
+
+                    if (value1type != AnswerType.number|| value2type != AnswerType.number)
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("","İşlemin yapılabilmesi için sayı girmeniz gerekmektedir");
+                    }
+                    else
+                    {
+                     var answerCreateDto=   await _answerService.findOperationAnswer(value1, value2, question.Id, question.OperationType.Value);
+                     await _answerService.CreateAsync(answerCreateDto);
+                    }
+                    
+                }
+
+                else 
                 {
 
                     var answers = await _answerService.GetAllAsync();
@@ -380,6 +409,8 @@ namespace GoogleForms.WebUI.Controller2
                 }
             }
 
+            
+
             return RedirectToAction("Index");
         }
 
@@ -389,7 +420,7 @@ namespace GoogleForms.WebUI.Controller2
             bool isItDigit = true;
             AnswerListDto LeastSelectedAnswer;
             AnswerListDto MostSelectedAnswer;
-            var answerParagrafKisayanitSum = 0;
+            long answerParagrafKisayanitSum = 0;
 
             if (formListDto.Questions != null)
             {
@@ -442,14 +473,14 @@ namespace GoogleForms.WebUI.Controller2
                                 }
                                 if (isItDigit == true)
                                 {
-                                    answerParagrafKisayanitSum = question.Answers.Sum(i => Int16.Parse(i.Description));
+                                    answerParagrafKisayanitSum = question.Answers.Sum(i => Int64.Parse(i.Description));
                                     var answers = await _answerService.GetAllAsync();
                                     var answerNumber = answers.Where(i => i.QuestionId == question.Id && i.IsItUserAnswer == true).Count();
                                     if (answerNumber > 0)
                                     {
                                         question.AverageAnswersValue = answerParagrafKisayanitSum / answerNumber;
-                                        question.MinAnsweresValue = question.Answers.Min(i => Int16.Parse(i.Description));
-                                        question.MaxAnsweresValue = question.Answers.Max(i => Int16.Parse(i.Description));
+                                        question.MinAnsweresValue = question.Answers.Min(i => Int64.Parse(i.Description));
+                                        question.MaxAnsweresValue = question.Answers.Max(i => Int64.Parse(i.Description));
                                     }
 
                                 }
@@ -506,9 +537,11 @@ namespace GoogleForms.WebUI.Controller2
         [HttpPost]
         public async Task<IActionResult> AuthorizationShare(ControllerAddAuthorizeDto dto)
         {
-            var forms = await _formService.GetQuestionWithAnswersAndUsers();
-            var formListDto = forms.FirstOrDefault(i => i.Id == dto.FormId);
-            var formListDto1 = await _formService.GetByIdAsync<FormListDto>(dto.FormId);
+            var forms = await _formService.GetAllAsync();
+            var query=forms.AsQueryable();
+           var formListDto= query.AsNoTracking().FirstOrDefault(i => i.Id == dto.FormId);
+           
+            
             var UserToBeAdded = await _userManager.FindByNameAsync(dto.Email);
             if (UserToBeAdded != null)
             {
@@ -520,6 +553,8 @@ namespace GoogleForms.WebUI.Controller2
                 }
 
                 UserToBeAdded.Forms.Add(_mapper.Map<Form>(formListDto));
+
+
                 await _userManager.UpdateAsync(UserToBeAdded);
 
                 return RedirectToAction("Index");
@@ -551,6 +586,13 @@ namespace GoogleForms.WebUI.Controller2
             {
                 var question1 = await _questionService.GetByIdAsync<QuestionListDto>(createOperationDto.SelectedQuestionId1);
                 var question2 = await _questionService.GetByIdAsync<QuestionListDto>(createOperationDto.SelectedQuestionId2);
+
+                mainQuestion.OpertionQuestion1Id = createOperationDto.SelectedQuestionId1;
+                mainQuestion.OpertionQuestion2Id = createOperationDto.SelectedQuestionId2;
+                mainQuestion.OperationType = createOperationDto.operandType;
+
+               var dto= await _questionService.UpdateAsync(_mapper.Map<QuestionUpdateDto>(mainQuestion));
+               return View("FormView", formListDto);
             }
 
             return View(createOperationDto);

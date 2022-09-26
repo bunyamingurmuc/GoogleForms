@@ -102,6 +102,12 @@
                             }
                         </div>
                     }
+                    else if (Model.Questions[i].QuestionType == QuestionType.Islem)
+                    {
+	                    <label class="btn btn-info">
+		                     @Model.Questions[i].OperationType
+	                    </label>
+                    }
                 </div>
             </div>
         </div>
